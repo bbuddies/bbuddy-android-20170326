@@ -1,6 +1,7 @@
 package com.odde.bbuddy.authentication;
 
 import com.odde.bbuddy.common.Backend;
+import com.odde.bbuddy.common.Consumer;
 
 public class Authenticator {
 
@@ -10,7 +11,12 @@ public class Authenticator {
         this.backend = backend;
     }
 
-    public void authenticate(Credentials credentials) {
-        backend.authenticate(credentials);
+    public void authenticate(Credentials credentials, final Consumer afterSuccess) {
+        backend.authenticate(credentials, new Consumer<String>() {
+            @Override
+            public void accept(String message) {
+                afterSuccess.accept(message);
+            }
+        });
     }
 }

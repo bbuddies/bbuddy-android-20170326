@@ -24,17 +24,19 @@ public class Backend {
         requestQueue = newRequestQueue(context);
     }
 
-    public void authenticate(Credentials credentials) {
+    public void authenticate(Credentials credentials, final Consumer<String> afterSuccess) {
         requestQueue.add(new JsonObjectRequest(
-                Request.Method.POST, "http://localhost:3000/auth/sign_in", jsonOf(credentials),
+                Request.Method.POST, "http://10.0.3.2:3000/auth/sign_in", jsonOf(credentials),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        afterSuccess.accept("success");
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        afterSuccess.accept("failed");
                     }
                 }));
     }

@@ -14,7 +14,7 @@ public class AuthenticatorTest {
         Backend mockBackend = mock(Backend.class);
         Authenticator authenticator = new Authenticator(mockBackend);
 
-        Credentials credentials = new Credentials("userName", "password");
+        Credentials credentials = new Credentials("abc@gmail.com", "password");
         authenticator.authenticate(credentials);
 
         verify(mockBackend).authenticate(credentials);

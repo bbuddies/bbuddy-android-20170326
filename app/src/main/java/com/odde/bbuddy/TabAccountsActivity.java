@@ -1,19 +1,16 @@
 package com.odde.bbuddy;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.ListFragment;
+import android.widget.ArrayAdapter;
 
 
-public class TabAccountsActivity extends Fragment {
+public class TabAccountsActivity extends ListFragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        //Returning the layout file after inflating
-        //Change R.layout.tab1 in you classes
-        return inflater.inflate(R.layout.tab_accounts, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setListAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, new String[]{"CMB 1000", "HSBC 0"}));
     }
+
 }

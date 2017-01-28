@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.odde.bbuddy.authentication.Credentials;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,6 +47,14 @@ public class Backend {
             return new JSONObject(new ObjectMapper().writeValueAsString(credentials));
         } catch (JsonProcessingException | JSONException e) {
             throw new IllegalStateException(e);
+        }
+    }
+
+    public void processAllAccounts(final Consumer<JSONArray> consumer) {
+        try {
+            consumer.accept(new JSONArray("[{\"id\":1,\"name\":\"CMB\",\"balance\":1000,\"created_at\":\"2017-01-26T11:59:32.576Z\",\"updated_at\":\"2017-01-26T11:59:32.576Z\"},{\"id\":2,\"name\":\"HSBC\",\"balance\":0,\"created_at\":\"2017-01-26T13:26:58.159Z\",\"updated_at\":\"2017-01-26T13:26:58.159Z\"}]"));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

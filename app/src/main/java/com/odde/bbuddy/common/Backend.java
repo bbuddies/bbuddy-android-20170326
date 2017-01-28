@@ -11,14 +11,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.odde.bbuddy.account.Account;
 import com.odde.bbuddy.authentication.Credentials;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.android.volley.toolbox.Volley.newRequestQueue;
@@ -71,23 +76,19 @@ public class Backend {
         }
     }
 
-    public void processAllAccounts(final Consumer<JSONArray> consumer) {
+    public void processAllAccounts(final Consumer<List<Account>> consumer) {
         requestQueue.add(new JsonArrayRequest(
                 Request.Method.GET, "http://10.0.3.2:3000/accounts", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        consumer.accept(response);
+                        consumer.accept(accountsFromJson(response));
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        try {
-                            consumer.accept(new JSONArray("[{\"name\":\"error\",\"balance\":0}]"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        consumer.accept(new ArrayList<Account>());
                     }
                 }){
             @Override
@@ -95,6 +96,14 @@ public class Backend {
                 return authenticationHeaders();
             }
         });
+    }
+
+    private List<Account> accountsFromJson(JSONArray response) {
+        try {
+            return new ObjectMapper().readValue(response.toString(), new TypeReference<List<Account>>(){});
+        } catch (IOException e) {
+            throw new IllegalStateException();
+        }
     }
 
     private Map<String, String> authenticationHeaders() {

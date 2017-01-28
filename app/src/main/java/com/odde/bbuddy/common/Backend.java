@@ -2,14 +2,6 @@ package com.odde.bbuddy.common;
 
 import android.content.Context;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,41 +13,34 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.android.volley.toolbox.Volley.newRequestQueue;
-
 public class Backend {
 
-    private final RequestQueue requestQueue;
     private final static Map<String, String> authenticationHeaders = new HashMap<>();
+    private final JsonBackend jsonBackend;
 
     public Backend(Context context) {
-        requestQueue = newRequestQueue(context);
+        jsonBackend = new JsonBackend(context);
     }
 
     public void authenticate(Credentials credentials, final Consumer<String> afterSuccess) {
-        requestQueue.add(new JsonObjectRequest(
-                Request.Method.POST, "http://10.0.3.2:3000/auth/sign_in", jsonOf(credentials),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        afterSuccess.accept("success");
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        afterSuccess.accept("failed");
-                    }
-                }){
+        jsonBackend.postRequestForJson("/auth/sign_in", jsonOf(credentials), new Consumer<JSONObject>() {
             @Override
-            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                updateAuthenticationHeaders(response.headers);
-                return super.parseNetworkResponse(response);
+            public void accept(JSONObject jsonObject) {
+                afterSuccess.accept("success");
+            }
+        }, new Runnable() {
+            @Override
+            public void run() {
+                afterSuccess.accept("failed");
+            }
+        }, new Consumer<Map<String, String>>() {
+            @Override
+            public void accept(Map<String, String> headers) {
+                updateAuthenticationHeaders(headers);
             }
         });
     }
@@ -77,23 +62,10 @@ public class Backend {
     }
 
     public void processAllAccounts(final Consumer<List<Account>> consumer) {
-        requestQueue.add(new JsonArrayRequest(
-                Request.Method.GET, "http://10.0.3.2:3000/accounts", null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        consumer.accept(accountsFromJson(response));
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        consumer.accept(new ArrayList<Account>());
-                    }
-                }){
+        jsonBackend.getRequestForJsonArray("/accounts", authenticationHeaders(), new Consumer<JSONArray>() {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return authenticationHeaders();
+            public void accept(JSONArray response) {
+                consumer.accept(accountsFromJson(response));
             }
         });
     }

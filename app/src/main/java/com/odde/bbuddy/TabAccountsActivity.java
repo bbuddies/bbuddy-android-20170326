@@ -6,8 +6,10 @@ import android.support.v4.app.ListFragment;
 import android.widget.ArrayAdapter;
 
 import com.odde.bbuddy.account.Account;
-import com.odde.bbuddy.common.Backend;
+import com.odde.bbuddy.account.Accounts;
+import com.odde.bbuddy.authentication.AuthenticationToken;
 import com.odde.bbuddy.common.Consumer;
+import com.odde.bbuddy.common.JsonBackend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ public class TabAccountsActivity extends ListFragment {
     }
 
     private void showAllAccounts() {
-        new Backend(getActivity()).processAllAccounts(new Consumer<List<Account>>() {
+        new Accounts(new JsonBackend(getActivity()), new AuthenticationToken()).processAllAccounts(new Consumer<List<Account>>() {
             @Override
             public void accept(List<Account> accounts) {
                 setListAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, presentableAccountsFrom(accounts)));

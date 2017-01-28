@@ -1,24 +1,24 @@
-package com.odde.bbuddy.common;
-
-import android.content.Context;
+package com.odde.bbuddy.account;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.odde.bbuddy.account.Account;
 import com.odde.bbuddy.authentication.AuthenticationToken;
+import com.odde.bbuddy.common.Consumer;
+import com.odde.bbuddy.common.JsonBackend;
 
 import org.json.JSONArray;
 
 import java.io.IOException;
 import java.util.List;
 
-public class Backend {
+public class Accounts {
 
     private final JsonBackend jsonBackend;
-    private final AuthenticationToken token = new AuthenticationToken();
+    private final AuthenticationToken token;
 
-    public Backend(Context context) {
-        jsonBackend = new JsonBackend(context);
+    public Accounts(JsonBackend jsonBackend, AuthenticationToken token) {
+        this.jsonBackend = jsonBackend;
+        this.token = token;
     }
 
     public void processAllAccounts(final Consumer<List<Account>> consumer) {

@@ -10,6 +10,7 @@ import org.json.JSONArray;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class Accounts {
 
@@ -26,6 +27,11 @@ public class Accounts {
             @Override
             public void accept(JSONArray response) {
                 consumer.accept(accountsFromJson(response));
+            }
+        }, new Consumer<Map<String, String>>() {
+            @Override
+            public void accept(Map<String, String> responseHeaders) {
+                token.updateByHeaders(responseHeaders);
             }
         });
     }

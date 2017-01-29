@@ -55,7 +55,7 @@ public class JsonBackend {
         });
     }
 
-    public void getRequestForJsonArray(String action, final Map<String, String> headers, final Consumer<JSONArray> responseConsumer) {
+    public void getRequestForJsonArray(String action, final Map<String, String> headers, final Consumer<JSONArray> responseConsumer, final Consumer<Map<String, String>> responseHeaderConsumer) {
         requestQueue.add(new JsonArrayRequest(
                 Request.Method.GET, rootUrl + action, null,
                 new Response.Listener<JSONArray>() {
@@ -73,6 +73,11 @@ public class JsonBackend {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return headers;
+            }
+            @Override
+            protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
+                responseHeaderConsumer.accept(response.headers);
+                return super.parseNetworkResponse(response);
             }
         });
     }

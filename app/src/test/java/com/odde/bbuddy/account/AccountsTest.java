@@ -1,5 +1,7 @@
 package com.odde.bbuddy.account;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.odde.bbuddy.authentication.AuthenticationToken;
 import com.odde.bbuddy.common.Consumer;
@@ -32,6 +34,7 @@ public class AccountsTest {
     JsonBackend mockJsonBackend = mock(JsonBackend.class);
     AuthenticationToken mockAuthenticationToken = mock(AuthenticationToken.class);
     Map<String, String> authenticationHeaders = new HashMap<>();
+    Map<String, String> responseHeaders = new HashMap<>();
     Accounts accounts = new Accounts(mockJsonBackend, mockAuthenticationToken);
     Consumer mockConsumer = mock(Consumer.class);
 
@@ -44,7 +47,7 @@ public class AccountsTest {
     public void all_accounts_with_authentication_headers() {
         processAllAccounts();
 
-        verify(mockJsonBackend).getRequestForJsonArray(eq("/accounts"), eq(authenticationHeaders), any(Consumer.class));
+        verify(mockJsonBackend).getRequestForJsonArray(eq("/accounts"), eq(authenticationHeaders), any(Consumer.class), any(Consumer.class));
     }
 
     @Test
@@ -56,6 +59,27 @@ public class AccountsTest {
         verifyAccountConsumed("name", 1000);
     }
 
+    @Test
+    public void all_accounts_will_update_authentication_headers() {
+        given_backend_will_return(responseHeaders());
+
+        processAllAccounts();
+
+        verify(mockAuthenticationToken).updateByHeaders(responseHeaders);
+    }
+
+    @NonNull
+    private Answer responseHeaders() {
+        return new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                Consumer consumer = invocation.getArgument(3);
+                consumer.accept(responseHeaders);
+                return null;
+            }
+        };
+    }
+
     private void verifyAccountConsumed(String expectedName, int expectedBalanceBroughtForward) {
         ArgumentCaptor<List<Account>> captor = ArgumentCaptor.forClass(List.class);
         verify(mockConsumer).accept(captor.capture());
@@ -64,14 +88,23 @@ public class AccountsTest {
     }
 
     private void given_backend_return_json_with_account(final Account account) {
-        doAnswer(new Answer() {
+        given_backend_will_return(jsonArrayOf(account));
+    }
+
+    private void given_backend_will_return(Answer answer) {
+        doAnswer(answer).when(mockJsonBackend).getRequestForJsonArray(anyString(), ArgumentMatchers.<String, String>anyMap(), any(Consumer.class), any(Consumer.class));
+    }
+
+    @NonNull
+    private Answer jsonArrayOf(final Account account) {
+        return new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 Consumer consumer = invocation.getArgument(2);
                 consumer.accept(new JSONArray(new ObjectMapper().writeValueAsString(asList(account))));
                 return null;
             }
-        }).when(mockJsonBackend).getRequestForJsonArray(anyString(), ArgumentMatchers.<String, String>anyMap(), any(Consumer.class));
+        };
     }
 
     private void processAllAccounts() {

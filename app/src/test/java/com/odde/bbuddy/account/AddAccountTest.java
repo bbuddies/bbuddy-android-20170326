@@ -1,6 +1,5 @@
 package com.odde.bbuddy.account;
 
-import com.odde.bbuddy.authentication.AuthenticationToken;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
 
@@ -22,8 +21,7 @@ import static org.mockito.Mockito.verify;
 public class AddAccountTest {
 
     JsonBackend mockJsonBackend = mock(JsonBackend.class);
-    AuthenticationToken mockAuthenticationToken = mock(AuthenticationToken.class);
-    Accounts accounts = new Accounts(mockJsonBackend, mockAuthenticationToken);
+    Accounts accounts = new Accounts(mockJsonBackend);
     Runnable mockRunnable = mock(Runnable.class);
     Account account = new Account("name", 1000);
 
@@ -32,7 +30,7 @@ public class AddAccountTest {
         accounts.addAccount(new Account("name", 1000), mockRunnable);
 
         ArgumentCaptor<JSONObject> captor = ArgumentCaptor.forClass(JSONObject.class);
-        verify(mockJsonBackend).postRequestForJson(eq("/accounts"), captor.capture(), any(Consumer.class), any(Runnable.class), any(Consumer.class));
+        verify(mockJsonBackend).postRequestForJson(eq("/accounts"), captor.capture(), any(Consumer.class), any(Runnable.class));
         assertEquals("name", captor.getValue().getString("name"));
         assertEquals(1000, captor.getValue().getInt("balance"));
     }
@@ -54,6 +52,6 @@ public class AddAccountTest {
                 consumer.accept(new JSONObject());
                 return null;
             }
-        }).when(mockJsonBackend).postRequestForJson(anyString(), any(JSONObject.class), any(Consumer.class), any(Runnable.class), any(Consumer.class));
+        }).when(mockJsonBackend).postRequestForJson(anyString(), any(JSONObject.class), any(Consumer.class), any(Runnable.class));
     }
 }

@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.odde.bbuddy.authentication.AuthenticationToken;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
 
@@ -15,28 +14,20 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class Accounts {
 
     private final JsonBackend jsonBackend;
-    private final AuthenticationToken token;
 
-    public Accounts(JsonBackend jsonBackend, AuthenticationToken token) {
+    public Accounts(JsonBackend jsonBackend) {
         this.jsonBackend = jsonBackend;
-        this.token = token;
     }
 
     public void processAllAccounts(final Consumer<List<Account>> consumer) {
-        jsonBackend.getRequestForJsonArray("/accounts", token.getHeaders(), new Consumer<JSONArray>() {
+        jsonBackend.getRequestForJsonArray("/accounts", new Consumer<JSONArray>() {
             @Override
             public void accept(JSONArray response) {
                 consumer.accept(accountsFromJson(response));
-            }
-        }, new Consumer<Map<String, String>>() {
-            @Override
-            public void accept(Map<String, String> responseHeaders) {
-                token.updateByHeaders(responseHeaders);
             }
         });
     }
@@ -58,11 +49,6 @@ public class Accounts {
         }, new Runnable() {
             @Override
             public void run() {
-
-            }
-        }, new Consumer<Map<String, String>>() {
-            @Override
-            public void accept(Map<String, String> stringStringMap) {
 
             }
         });

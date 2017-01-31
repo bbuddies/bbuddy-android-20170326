@@ -23,6 +23,7 @@ public class JsonBackend {
 
     private final RequestQueue requestQueue;
     private final String rootUrl = "http://10.0.3.2:3000";
+    private final AuthenticationToken authenticationToken = new AuthenticationToken();
 
     public JsonBackend(Context context) {
         requestQueue = newRequestQueue(context);
@@ -32,8 +33,7 @@ public class JsonBackend {
             String action,
             JSONObject request,
             final Consumer<JSONObject> responseConsumer,
-            final Runnable afterError,
-            final Consumer<Map<String, String>> headerConsumer) {
+            final Runnable afterError) {
         requestQueue.add(new JsonObjectRequest(
                 Request.Method.POST, rootUrl + action, request,
                 new Response.Listener<JSONObject>() {
@@ -50,17 +50,17 @@ public class JsonBackend {
                 }){
             @Override
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                headerConsumer.accept(response.headers);
+                authenticationToken.updateByHeaders(response.headers);
                 return super.parseNetworkResponse(response);
             }
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                return new AuthenticationToken().getHeaders();
+                return authenticationToken.getHeaders();
             }
         });
     }
 
-    public void getRequestForJsonArray(String action, final Map<String, String> headers, final Consumer<JSONArray> responseConsumer, final Consumer<Map<String, String>> responseHeaderConsumer) {
+    public void getRequestForJsonArray(String action, final Consumer<JSONArray> responseConsumer) {
         requestQueue.add(new JsonArrayRequest(
                 Request.Method.GET, rootUrl + action, null,
                 new Response.Listener<JSONArray>() {
@@ -77,11 +77,11 @@ public class JsonBackend {
                 }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                return headers;
+                return authenticationToken.getHeaders();
             }
             @Override
             protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
-                responseHeaderConsumer.accept(response.headers);
+                authenticationToken.updateByHeaders(response.headers);
                 return super.parseNetworkResponse(response);
             }
         });

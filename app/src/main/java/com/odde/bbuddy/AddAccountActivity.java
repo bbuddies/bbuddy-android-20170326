@@ -9,7 +9,6 @@ import android.widget.EditText;
 
 import com.odde.bbuddy.account.Account;
 import com.odde.bbuddy.account.Accounts;
-import com.odde.bbuddy.authentication.AuthenticationToken;
 import com.odde.bbuddy.common.JsonBackend;
 
 import static android.view.View.OnClickListener;
@@ -28,7 +27,7 @@ public class AddAccountActivity extends AppCompatActivity {
                 EditText name = (EditText) findViewById(R.id.name);
                 EditText balanceBroughtForward = (EditText) findViewById(R.id.balanceBroughtForward);
 
-                new Accounts(new JsonBackend(getApplicationContext()), new AuthenticationToken()).addAccount(new Account(name.getText().toString(), Integer.parseInt(balanceBroughtForward.getText().toString())), new Runnable() {
+                new Accounts(new JsonBackend(getApplicationContext())).addAccount(new Account(name.getText().toString(), Integer.parseInt(balanceBroughtForward.getText().toString())), new Runnable() {
                     @Override
                     public void run() {
                         Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);

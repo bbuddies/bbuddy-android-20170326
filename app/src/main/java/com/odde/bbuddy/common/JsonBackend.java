@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.odde.bbuddy.authentication.AuthenticationToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -51,6 +52,10 @@ public class JsonBackend {
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                 headerConsumer.accept(response.headers);
                 return super.parseNetworkResponse(response);
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return new AuthenticationToken().getHeaders();
             }
         });
     }

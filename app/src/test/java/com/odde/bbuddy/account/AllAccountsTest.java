@@ -29,7 +29,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class AccountsTest {
+public class AllAccountsTest {
 
     JsonBackend mockJsonBackend = mock(JsonBackend.class);
     AuthenticationToken mockAuthenticationToken = mock(AuthenticationToken.class);

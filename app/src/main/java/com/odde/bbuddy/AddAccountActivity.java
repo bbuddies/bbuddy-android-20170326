@@ -5,8 +5,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
-import static android.view.View.*;
+import com.odde.bbuddy.account.Account;
+import com.odde.bbuddy.account.Accounts;
+import com.odde.bbuddy.authentication.AuthenticationToken;
+import com.odde.bbuddy.common.JsonBackend;
+
+import static android.view.View.OnClickListener;
 
 public class AddAccountActivity extends AppCompatActivity {
 
@@ -19,9 +25,17 @@ public class AddAccountActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
-                intent.putExtra("tabPosition", 1);
-                startActivity(intent);
+                EditText name = (EditText) findViewById(R.id.name);
+                EditText balanceBroughtForward = (EditText) findViewById(R.id.balanceBroughtForward);
+
+                new Accounts(new JsonBackend(getApplicationContext()), new AuthenticationToken()).addAccount(new Account(name.getText().toString(), Integer.parseInt(balanceBroughtForward.getText().toString())), new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+                        intent.putExtra("tabPosition", 1);
+                        startActivity(intent);
+                    }
+                });
             }
         });
     }

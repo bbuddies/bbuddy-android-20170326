@@ -26,4 +26,8 @@ public class Account {
         return balanceBroughtForward;
     }
 
+    @Override
+    public String toString() {
+        return name + " " + balanceBroughtForward;
+    }
 }

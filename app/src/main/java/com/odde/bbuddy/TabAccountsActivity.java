@@ -24,8 +24,10 @@ public class TabAccountsActivity extends ListFragment {
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        startActivity(new Intent(getActivity(), EditAccountActivity.class));
+    public void onListItemClick(ListView listView, View v, int position, long id) {
+        Intent intent = new Intent(getActivity(), EditAccountActivity.class);
+        intent.putExtra("account", (Account)listView.getItemAtPosition(position));
+        startActivity(intent);
     }
 
     private void showAllAccounts() {

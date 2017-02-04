@@ -19,7 +19,7 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name"
+            android:hint="@string/account_name"
             android:inputType="textCapWords" />
 
     </android.support.design.widget.TextInputLayout>
@@ -32,7 +32,7 @@
             android:id="@+id/balanceBroughtForward"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Balance Brought Forward"
+            android:hint="@string/account_balance_brought_forward"
             android:inputType="number" />
     </android.support.design.widget.TextInputLayout>
 
@@ -40,13 +40,13 @@
         android:id="@+id/update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Update" />
+        android:text="@string/update" />
 
     <Button
         android:id="@+id/delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete" />
+        android:text="@string/delete" />
 
 </LinearLayout>
 

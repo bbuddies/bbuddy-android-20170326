@@ -18,7 +18,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name"
+            android:hint="@string/account_name"
             android:inputType="textCapWords"
             android:id="@+id/name" />
 
@@ -31,13 +31,13 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Balance Brought Forward"
+            android:hint="@string/account_balance_brought_forward"
             android:inputType="number"
             android:id="@+id/balanceBroughtForward" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:text="Confirm"
+        android:text="@string/confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/confirm" />

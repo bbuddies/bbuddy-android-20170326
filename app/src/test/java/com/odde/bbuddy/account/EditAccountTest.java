@@ -2,6 +2,8 @@ package com.odde.bbuddy.account;
 
 import android.support.annotation.NonNull;
 
+import com.odde.bbuddy.account.model.Accounts;
+import com.odde.bbuddy.account.viewmodel.Account;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
 

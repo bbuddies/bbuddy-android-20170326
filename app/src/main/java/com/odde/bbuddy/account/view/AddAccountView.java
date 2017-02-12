@@ -1,4 +1,4 @@
-package com.odde.bbuddy.account;
+package com.odde.bbuddy.account.view;
 
 import android.content.Context;
 

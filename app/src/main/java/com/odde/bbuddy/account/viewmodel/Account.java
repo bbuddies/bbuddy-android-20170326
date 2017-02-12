@@ -1,9 +1,11 @@
-package com.odde.bbuddy.account;
+package com.odde.bbuddy.account.viewmodel;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.odde.bbuddy.account.model.Accounts;
+import com.odde.bbuddy.account.view.AddAccountView;
 import com.odde.bbuddy.common.JsonBackend;
 
 import org.robobinding.annotation.PresentationModel;

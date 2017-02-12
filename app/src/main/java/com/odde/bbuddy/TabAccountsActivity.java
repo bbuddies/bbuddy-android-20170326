@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.odde.bbuddy.account.Account;
-import com.odde.bbuddy.account.Accounts;
+import com.odde.bbuddy.account.viewmodel.Account;
+import com.odde.bbuddy.account.model.Accounts;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
 

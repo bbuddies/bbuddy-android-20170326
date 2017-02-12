@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.odde.bbuddy.account.Account;
-import com.odde.bbuddy.account.Accounts;
+import com.odde.bbuddy.account.viewmodel.Account;
+import com.odde.bbuddy.account.model.Accounts;
 import com.odde.bbuddy.common.JsonBackend;
 
 public class EditAccountActivity extends AppCompatActivity {

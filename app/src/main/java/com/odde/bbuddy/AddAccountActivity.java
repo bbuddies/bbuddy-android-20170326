@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.odde.bbuddy.account.Account;
-import com.odde.bbuddy.account.AddAccountView;
+import com.odde.bbuddy.account.viewmodel.Account;
+import com.odde.bbuddy.account.view.AddAccountView;
 
 import org.robobinding.ViewBinder;
 import org.robobinding.binder.BinderFactory;

@@ -1,10 +1,10 @@
 package com.odde.bbuddy.account.viewmodel;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.odde.bbuddy.account.model.Accounts;
+import com.odde.bbuddy.account.view.Navigation;
 import com.odde.bbuddy.account.view.ShowAllAccounts;
 
 import org.robobinding.annotation.PresentationModel;
@@ -20,18 +20,14 @@ import javax.inject.Singleton;
 public class Account implements Serializable {
 
     private Accounts accounts;
-    private ShowAllAccounts showAllAccounts;
+    private Navigation showAllAccounts;
     private String name;
 
     @JsonProperty("balance")
     private int balanceBroughtForward;
     private int id;
 
-    @JsonCreator
-    public Account(@JsonProperty("name") String name, @JsonProperty("balance") int balanceBroughtForward) {
-        this.name = name;
-        this.balanceBroughtForward = balanceBroughtForward;
-    }
+    public Account() {}
 
     @Inject
     public Account(Accounts accounts, ShowAllAccounts showAllAccounts) {
@@ -43,8 +39,16 @@ public class Account implements Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getBalanceBroughtForward() {
         return balanceBroughtForward;
+    }
+
+    public void setBalanceBroughtForward(int balanceBroughtForward) {
+        this.balanceBroughtForward = balanceBroughtForward;
     }
 
     @Override
@@ -52,20 +56,17 @@ public class Account implements Serializable {
         return name + " " + balanceBroughtForward;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getId() {
         return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setBalanceBroughtForward(int balanceBroughtForward) {
-        this.balanceBroughtForward = balanceBroughtForward;
+    @JsonIgnore
+    public String getBalanceBroughtForwardForView() {
+        return String.valueOf(balanceBroughtForward);
     }
 
     public void setBalanceBroughtForwardForView(String balanceBroughtForward) {
@@ -74,11 +75,6 @@ public class Account implements Serializable {
         } catch (NumberFormatException e) {
 
         }
-    }
-
-    @JsonIgnore
-    public String getBalanceBroughtForwardForView() {
-        return String.valueOf(balanceBroughtForward);
     }
 
     public void add() {

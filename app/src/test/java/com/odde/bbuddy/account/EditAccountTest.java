@@ -61,8 +61,10 @@ public class EditAccountTest {
 
     @NonNull
     private Account account(int id, String name, int balanceBroughtForward) {
-        Account account = new Account(name, balanceBroughtForward);
+        Account account = new Account();
         account.setId(id);
+        account.setName(name);
+        account.setBalanceBroughtForward(balanceBroughtForward);
         return account;
     }
 

@@ -55,7 +55,7 @@ public class DeleteAccountTest {
 
     @NonNull
     private Account accountWithId(int id) {
-        Account account = new Account("name", 1000);
+        Account account = new Account();
         account.setId(id);
         return account;
     }

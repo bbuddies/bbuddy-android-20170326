@@ -40,11 +40,18 @@ public class AllAccountsTest {
 
     @Test
     public void all_accounts_with_some_data_from_backend() {
-        given_backend_return_json_with_account(new Account("name", 1000));
+        given_backend_return_json_with_account(account("name", 1000));
 
         processAllAccounts();
 
         verifyAccountConsumed("name", 1000);
+    }
+
+    private Account account(String name, int balanceBroughtForward) {
+        Account account = new Account();
+        account.setName(name);
+        account.setBalanceBroughtForward(balanceBroughtForward);
+        return account;
     }
 
     private void verifyAccountConsumed(String expectedName, int expectedBalanceBroughtForward) {

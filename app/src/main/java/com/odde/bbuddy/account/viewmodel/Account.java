@@ -4,20 +4,23 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.odde.bbuddy.AddAccountActivity;
 import com.odde.bbuddy.account.model.Accounts;
 import com.odde.bbuddy.account.view.ShowAllAccounts;
-import com.odde.bbuddy.common.JsonBackend;
 
 import org.robobinding.annotation.PresentationModel;
 
 import java.io.Serializable;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @PresentationModel
+@Singleton
 public class Account implements Serializable {
 
-    private AddAccountActivity view;
+    private Accounts accounts;
+    private ShowAllAccounts showAllAccounts;
     private String name;
 
     @JsonProperty("balance")
@@ -30,8 +33,10 @@ public class Account implements Serializable {
         this.balanceBroughtForward = balanceBroughtForward;
     }
 
-    public Account(AddAccountActivity view) {
-        this.view = view;
+    @Inject
+    public Account(Accounts accounts, ShowAllAccounts showAllAccounts) {
+        this.accounts = accounts;
+        this.showAllAccounts = showAllAccounts;
     }
 
     public String getName() {
@@ -77,10 +82,10 @@ public class Account implements Serializable {
     }
 
     public void add() {
-        new Accounts(new JsonBackend(view)).addAccount(this, new Runnable() {
+        accounts.addAccount(this, new Runnable() {
             @Override
             public void run() {
-                new ShowAllAccounts(view).navigate();
+                showAllAccounts.navigate();
             }
         });
     }

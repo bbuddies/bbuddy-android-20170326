@@ -56,10 +56,12 @@ dependencies {
     compile("org.robobinding:robobinding:0.8.14:with-dependencies") {
         exclude group: 'com.google.guava', module: 'guava'
     }
+    compile 'com.google.dagger:dagger:2.9'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.6.4'
     testCompile 'org.json:json:20140107'
 
     apt "org.robobinding:codegen:0.8.14"
+    apt "com.google.dagger:dagger-compiler:2.9"
 }

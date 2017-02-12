@@ -5,10 +5,15 @@ import android.content.Intent;
 
 import com.odde.bbuddy.DashboardActivity;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class ShowAllAccounts implements Navigation {
 
     private final Context context;
 
+    @Inject
     public ShowAllAccounts(Context context) {
         this.context = context;
     }

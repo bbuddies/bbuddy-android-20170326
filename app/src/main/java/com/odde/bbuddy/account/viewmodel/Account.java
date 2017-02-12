@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.odde.bbuddy.AddAccountActivity;
 import com.odde.bbuddy.account.model.Accounts;
-import com.odde.bbuddy.account.view.AddAccountView;
+import com.odde.bbuddy.account.view.ShowAllAccounts;
 import com.odde.bbuddy.common.JsonBackend;
 
 import org.robobinding.annotation.PresentationModel;
@@ -16,7 +17,7 @@ import java.io.Serializable;
 @PresentationModel
 public class Account implements Serializable {
 
-    private AddAccountView view;
+    private AddAccountActivity view;
     private String name;
 
     @JsonProperty("balance")
@@ -29,7 +30,7 @@ public class Account implements Serializable {
         this.balanceBroughtForward = balanceBroughtForward;
     }
 
-    public Account(AddAccountView view) {
+    public Account(AddAccountActivity view) {
         this.view = view;
     }
 
@@ -76,10 +77,10 @@ public class Account implements Serializable {
     }
 
     public void add() {
-        new Accounts(new JsonBackend(view.getApplicationContext())).addAccount(this, new Runnable() {
+        new Accounts(new JsonBackend(view)).addAccount(this, new Runnable() {
             @Override
             public void run() {
-                view.showAllAccounts();
+                new ShowAllAccounts(view).navigate();
             }
         });
     }

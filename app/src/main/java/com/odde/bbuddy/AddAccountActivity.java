@@ -1,18 +1,16 @@
 package com.odde.bbuddy;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.odde.bbuddy.account.viewmodel.Account;
-import com.odde.bbuddy.account.view.AddAccountView;
 
 import org.robobinding.ViewBinder;
 import org.robobinding.binder.BinderFactory;
 import org.robobinding.binder.BinderFactoryBuilder;
 
-public class AddAccountActivity extends AppCompatActivity implements AddAccountView {
+public class AddAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +27,4 @@ public class AddAccountActivity extends AppCompatActivity implements AddAccountV
         return reusableBinderFactory.createViewBinder(this);
     }
 
-    @Override
-    public void showAllAccounts() {
-        Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
-        intent.putExtra("tabPosition", 1);
-        startActivity(intent);
-    }
 }

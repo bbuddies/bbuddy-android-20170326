@@ -86,4 +86,22 @@ public class Account implements Serializable {
         });
     }
 
+    public void update() {
+        accounts.editAccount(this, new Runnable() {
+            @Override
+            public void run() {
+                showAllAccounts.navigate();
+            }
+        });
+    }
+
+    public void delete() {
+        accounts.deleteAccount(this, new Runnable() {
+            @Override
+            public void run() {
+                showAllAccounts.navigate();
+            }
+        });
+    }
+
 }

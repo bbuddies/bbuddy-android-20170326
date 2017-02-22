@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://robobinding.org/android"
     android:id="@+id/activity_edit_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,7 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/account_name"
-            android:inputType="textCapWords" />
+            android:inputType="textCapWords"
+            bind:text = "${name}"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -33,20 +35,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/account_balance_brought_forward"
-            android:inputType="number" />
+            android:inputType="number"
+            bind:text = "${balanceBroughtForwardForView}" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/update" />
+        android:text="@string/update"
+        bind:onClick = "update" />
 
     <Button
         android:id="@+id/delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/delete" />
+        android:text="@string/delete"
+        bind:onClick = "delete" />
 
 </LinearLayout>
 

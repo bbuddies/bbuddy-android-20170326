@@ -26,7 +26,7 @@ public class DashboardPager extends FragmentStatePagerAdapter {
                 TabDashboardActivity tabDashboard = new TabDashboardActivity();
                 return tabDashboard;
             case 1:
-                TabAccountsActivity tabAccounts = new TabAccountsActivity();
+                ShowAllAccountsActivity tabAccounts = new ShowAllAccountsActivity();
                 return tabAccounts;
             default:
                 return null;

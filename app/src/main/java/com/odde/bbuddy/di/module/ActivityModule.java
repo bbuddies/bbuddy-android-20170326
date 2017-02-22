@@ -3,6 +3,9 @@ package com.odde.bbuddy.di.module;
 import android.app.Activity;
 import android.content.Context;
 
+import org.robobinding.ViewBinder;
+import org.robobinding.binder.BinderFactoryBuilder;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,4 +22,10 @@ public class ActivityModule {
     Context provideContext() {
         return activity;
     }
+
+    @Provides
+    ViewBinder provideViewBinder() {
+        return new BinderFactoryBuilder().build().createViewBinder(activity);
+    }
+
 }

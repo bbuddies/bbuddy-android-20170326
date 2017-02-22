@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.odde.bbuddy.account.view.ShowAllAccountsActivity;
+
 
 public class DashboardPager extends FragmentStatePagerAdapter {
 

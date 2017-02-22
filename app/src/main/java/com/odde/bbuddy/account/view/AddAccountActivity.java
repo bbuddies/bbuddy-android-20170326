@@ -1,8 +1,9 @@
-package com.odde.bbuddy;
+package com.odde.bbuddy.account.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.odde.bbuddy.R;
 import com.odde.bbuddy.account.viewmodel.Account;
 
 import org.robobinding.ViewBinder;

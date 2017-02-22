@@ -1,7 +1,7 @@
 package com.odde.bbuddy.di.component;
 
-import com.odde.bbuddy.AddAccountActivity;
-import com.odde.bbuddy.ShowAllAccountsActivity;
+import com.odde.bbuddy.account.view.AddAccountActivity;
+import com.odde.bbuddy.account.view.ShowAllAccountsActivity;
 import com.odde.bbuddy.di.module.ActivityModule;
 
 import javax.inject.Singleton;

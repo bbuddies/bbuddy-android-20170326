@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".DashboardActivity" />
-        <activity android:name=".AddAccountActivity" />
+        <activity android:name=".account.view.AddAccountActivity" />
         <activity android:name=".EditAccountActivity"></activity>
     </application>
 

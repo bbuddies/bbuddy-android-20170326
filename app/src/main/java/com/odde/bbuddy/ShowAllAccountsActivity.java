@@ -8,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.odde.bbuddy.account.viewmodel.PresentableAccounts;
-import com.odde.bbuddy.di.component.DaggerActivityComponent;
-import com.odde.bbuddy.di.module.ActivityModule;
 
 import org.robobinding.ViewBinder;
 
 import javax.inject.Inject;
+
+import static com.odde.bbuddy.di.component.ActivityComponentFactory.createActivityComponentBy;
 
 
 public class ShowAllAccountsActivity extends Fragment {
@@ -28,7 +28,7 @@ public class ShowAllAccountsActivity extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DaggerActivityComponent.builder().activityModule(new ActivityModule(getActivity())).build().inject(this);
+        createActivityComponentBy(getActivity()).inject(this);
     }
 
     @Override

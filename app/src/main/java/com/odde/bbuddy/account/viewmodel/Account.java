@@ -51,8 +51,8 @@ public class Account implements Serializable {
         this.balanceBroughtForward = balanceBroughtForward;
     }
 
-    @Override
-    public String toString() {
+    @JsonIgnore
+    public String getDisplayOfAccount() {
         return name + " " + balanceBroughtForward;
     }
 
@@ -85,4 +85,5 @@ public class Account implements Serializable {
             }
         });
     }
+
 }

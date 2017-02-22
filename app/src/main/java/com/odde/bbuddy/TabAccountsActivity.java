@@ -1,42 +1,43 @@
 package com.odde.bbuddy;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.ViewGroup;
 
-import com.odde.bbuddy.account.viewmodel.Account;
-import com.odde.bbuddy.account.model.Accounts;
-import com.odde.bbuddy.common.Consumer;
-import com.odde.bbuddy.common.JsonBackend;
+import com.odde.bbuddy.account.viewmodel.PresentableAccounts;
+import com.odde.bbuddy.di.component.DaggerActivityComponent;
+import com.odde.bbuddy.di.module.ActivityModule;
 
-import java.util.List;
+import org.robobinding.ViewBinder;
+import org.robobinding.binder.BinderFactory;
+import org.robobinding.binder.BinderFactoryBuilder;
+
+import javax.inject.Inject;
 
 
-public class TabAccountsActivity extends ListFragment {
+public class TabAccountsActivity extends Fragment {
+
+    @Inject
+    PresentableAccounts presentableAccounts;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showAllAccounts();
+        DaggerActivityComponent.builder().activityModule(new ActivityModule(getActivity())).build().inject(this);
     }
 
     @Override
-    public void onListItemClick(ListView listView, View v, int position, long id) {
-        Intent intent = new Intent(getActivity(), EditAccountActivity.class);
-        intent.putExtra("account", (Account)listView.getItemAtPosition(position));
-        startActivity(intent);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ViewBinder viewBinder = createViewBinder();
+        return viewBinder.inflateAndBindWithoutAttachingToRoot(R.layout.activity_adapter_view, presentableAccounts, container);
     }
 
-    private void showAllAccounts() {
-        new Accounts(new JsonBackend(getActivity())).processAllAccounts(new Consumer<List<Account>>() {
-            @Override
-            public void accept(List<Account> accounts) {
-                setListAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, accounts.toArray(new Account[]{})));
-            }
-        });
+    private ViewBinder createViewBinder() {
+        BinderFactory reusableBinderFactory = new BinderFactoryBuilder().build();
+        return reusableBinderFactory.createViewBinder(getActivity());
     }
 
 }

@@ -9,12 +9,12 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class ShowAllAccounts implements Navigation {
+public class ShowAllAccountsNavigation {
 
     private final Context context;
 
     @Inject
-    public ShowAllAccounts(Context context) {
+    public ShowAllAccountsNavigation(Context context) {
         this.context = context;
     }
 

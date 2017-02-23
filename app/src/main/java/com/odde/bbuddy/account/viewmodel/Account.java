@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.odde.bbuddy.account.model.Accounts;
-import com.odde.bbuddy.account.view.Navigation;
-import com.odde.bbuddy.account.view.ShowAllAccounts;
+import com.odde.bbuddy.account.view.ShowAllAccountsNavigation;
 
 import org.robobinding.annotation.PresentationModel;
 
@@ -20,7 +19,7 @@ import javax.inject.Singleton;
 public class Account implements Serializable {
 
     private Accounts accounts;
-    private Navigation showAllAccounts;
+    private ShowAllAccountsNavigation showAllAccountsNavigation;
     private String name;
 
     @JsonProperty("balance")
@@ -30,9 +29,9 @@ public class Account implements Serializable {
     public Account() {}
 
     @Inject
-    public Account(Accounts accounts, ShowAllAccounts showAllAccounts) {
+    public Account(Accounts accounts, ShowAllAccountsNavigation showAllAccountsNavigation) {
         this.accounts = accounts;
-        this.showAllAccounts = showAllAccounts;
+        this.showAllAccountsNavigation = showAllAccountsNavigation;
     }
 
     public String getName() {
@@ -81,7 +80,7 @@ public class Account implements Serializable {
         accounts.addAccount(this, new Runnable() {
             @Override
             public void run() {
-                showAllAccounts.navigate();
+                showAllAccountsNavigation.navigate();
             }
         });
     }
@@ -90,7 +89,7 @@ public class Account implements Serializable {
         accounts.editAccount(this, new Runnable() {
             @Override
             public void run() {
-                showAllAccounts.navigate();
+                showAllAccountsNavigation.navigate();
             }
         });
     }
@@ -99,7 +98,7 @@ public class Account implements Serializable {
         accounts.deleteAccount(this, new Runnable() {
             @Override
             public void run() {
-                showAllAccounts.navigate();
+                showAllAccountsNavigation.navigate();
             }
         });
     }

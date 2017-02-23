@@ -1,7 +1,7 @@
 package com.odde.bbuddy.account.viewmodel;
 
 import com.odde.bbuddy.account.model.Accounts;
-import com.odde.bbuddy.account.view.EditAccount;
+import com.odde.bbuddy.account.view.EditDeleteAccountNavigation;
 import com.odde.bbuddy.common.Consumer;
 
 import org.robobinding.annotation.ItemPresentationModel;
@@ -22,8 +22,8 @@ public class PresentableAccounts implements HasPresentationModelChangeSupport {
     private final PresentationModelChangeSupport changeSupport = new PresentationModelChangeSupport(this);
 
     @Inject
-    public PresentableAccounts(Accounts accounts, EditAccount editAccount) {
-        this.editAccount = editAccount;
+    public PresentableAccounts(Accounts accounts, EditDeleteAccountNavigation editDeleteAccountNavigation) {
+        this.editDeleteAccountNavigation = editDeleteAccountNavigation;
         accounts.processAllAccounts(new Consumer<List<Account>>() {
             @Override
             public void accept(List<Account> list) {
@@ -33,7 +33,7 @@ public class PresentableAccounts implements HasPresentationModelChangeSupport {
         });
     }
 
-    private final EditAccount editAccount;
+    private final EditDeleteAccountNavigation editDeleteAccountNavigation;
 
     @ItemPresentationModel(value = PresentableAccount.class)
     public List<Account> getAccounts() {
@@ -42,7 +42,7 @@ public class PresentableAccounts implements HasPresentationModelChangeSupport {
 
     public void updateAccount(ItemClickEvent event) {
         Account account = allAccounts.get(event.getPosition());
-        editAccount.navigate(account);
+        editDeleteAccountNavigation.navigate(account);
     }
 
     @Override

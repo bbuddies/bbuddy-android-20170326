@@ -13,6 +13,6 @@ public class PresentableAccount implements ItemPresentationModel<Account> {
     }
 
     public String getDisplayOfAccount() {
-        return account.getDisplayOfAccount();
+        return account.getName() + " " + account.getBalanceBroughtForward();
     }
 }

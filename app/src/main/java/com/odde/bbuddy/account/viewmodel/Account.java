@@ -50,11 +50,6 @@ public class Account implements Serializable {
         this.balanceBroughtForward = balanceBroughtForward;
     }
 
-    @JsonIgnore
-    public String getDisplayOfAccount() {
-        return name + " " + balanceBroughtForward;
-    }
-
     public int getId() {
         return id;
     }

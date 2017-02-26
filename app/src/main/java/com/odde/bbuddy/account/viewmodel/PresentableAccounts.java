@@ -18,8 +18,9 @@ import javax.inject.Inject;
 @PresentationModel
 public class PresentableAccounts implements HasPresentationModelChangeSupport {
 
-    private final List<Account> allAccounts = new ArrayList<>();
     private final PresentationModelChangeSupport changeSupport = new PresentationModelChangeSupport(this);
+    private final EditDeleteAccountNavigation editDeleteAccountNavigation;
+    private final List<Account> allAccounts = new ArrayList<>();
 
     @Inject
     public PresentableAccounts(Accounts accounts, EditDeleteAccountNavigation editDeleteAccountNavigation) {
@@ -33,16 +34,17 @@ public class PresentableAccounts implements HasPresentationModelChangeSupport {
         });
     }
 
-    private final EditDeleteAccountNavigation editDeleteAccountNavigation;
-
     @ItemPresentationModel(value = PresentableAccount.class)
     public List<Account> getAccounts() {
         return allAccounts;
     }
 
     public void updateAccount(ItemClickEvent event) {
-        Account account = allAccounts.get(event.getPosition());
-        editDeleteAccountNavigation.navigate(account);
+        editDeleteAccountNavigation.navigate(accountOf(event));
+    }
+
+    private Account accountOf(ItemClickEvent event) {
+        return allAccounts.get(event.getPosition());
     }
 
     @Override

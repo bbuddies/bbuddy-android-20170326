@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.odde.bbuddy.R;
-import com.odde.bbuddy.account.viewmodel.Account;
+import com.odde.bbuddy.account.viewmodel.EditableAccount;
 
 import org.robobinding.ViewBinder;
 
@@ -15,7 +15,7 @@ import static com.odde.bbuddy.di.component.ActivityComponentFactory.createActivi
 public class AddAccountActivity extends AppCompatActivity {
 
     @Inject
-    Account account;
+    EditableAccount account;
 
     @Inject
     ViewBinder viewBinder;

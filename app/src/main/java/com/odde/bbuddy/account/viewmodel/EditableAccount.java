@@ -1,35 +1,27 @@
 package com.odde.bbuddy.account.viewmodel;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.odde.bbuddy.account.model.Account;
 import com.odde.bbuddy.account.model.Accounts;
 import com.odde.bbuddy.account.view.ShowAllAccountsNavigation;
 
 import org.robobinding.annotation.PresentationModel;
 
-import java.io.Serializable;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @PresentationModel
 @Singleton
-public class Account implements Serializable {
+public class EditableAccount {
 
-    private Accounts accounts;
-    private ShowAllAccountsNavigation showAllAccountsNavigation;
+    private final Accounts accounts;
+    private final ShowAllAccountsNavigation showAllAccountsNavigation;
+
     private String name;
-
-    @JsonProperty("balance")
     private int balanceBroughtForward;
     private int id;
 
-    public Account() {}
-
     @Inject
-    public Account(Accounts accounts, ShowAllAccountsNavigation showAllAccountsNavigation) {
+    public EditableAccount(Accounts accounts, ShowAllAccountsNavigation showAllAccountsNavigation) {
         this.accounts = accounts;
         this.showAllAccountsNavigation = showAllAccountsNavigation;
     }
@@ -42,23 +34,6 @@ public class Account implements Serializable {
         this.name = name;
     }
 
-    public int getBalanceBroughtForward() {
-        return balanceBroughtForward;
-    }
-
-    public void setBalanceBroughtForward(int balanceBroughtForward) {
-        this.balanceBroughtForward = balanceBroughtForward;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @JsonIgnore
     public String getBalanceBroughtForwardForView() {
         return String.valueOf(balanceBroughtForward);
     }
@@ -72,7 +47,10 @@ public class Account implements Serializable {
     }
 
     public void add() {
-        accounts.addAccount(this, new Runnable() {
+        Account account = new Account();
+        account.setName(name);
+        account.setBalanceBroughtForward(balanceBroughtForward);
+        accounts.addAccount(account, new Runnable() {
             @Override
             public void run() {
                 showAllAccountsNavigation.navigate();
@@ -80,8 +58,20 @@ public class Account implements Serializable {
         });
     }
 
+    public void setBalanceBroughtForward(int balanceBroughtForward) {
+        this.balanceBroughtForward = balanceBroughtForward;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void update() {
-        accounts.editAccount(this, new Runnable() {
+        Account account = new Account();
+        account.setId(id);
+        account.setName(name);
+        account.setBalanceBroughtForward(balanceBroughtForward);
+        accounts.editAccount(account, new Runnable() {
             @Override
             public void run() {
                 showAllAccountsNavigation.navigate();
@@ -90,7 +80,9 @@ public class Account implements Serializable {
     }
 
     public void delete() {
-        accounts.deleteAccount(this, new Runnable() {
+        Account account = new Account();
+        account.setId(id);
+        accounts.deleteAccount(account, new Runnable() {
             @Override
             public void run() {
                 showAllAccountsNavigation.navigate();

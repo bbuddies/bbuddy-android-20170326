@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.odde.bbuddy.R;
-import com.odde.bbuddy.account.viewmodel.Account;
+import com.odde.bbuddy.account.model.Account;
+import com.odde.bbuddy.account.viewmodel.EditableAccount;
 
 import org.robobinding.ViewBinder;
 
@@ -18,7 +19,7 @@ public class EditDeleteAccountActivity extends AppCompatActivity {
     ViewBinder viewBinder;
 
     @Inject
-    Account account;
+    EditableAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class EditDeleteAccountActivity extends AppCompatActivity {
         setContentView(viewBinder.inflateAndBind(R.layout.activity_edit_account, accountWithDataFromIntent()));
     }
 
-    private Account accountWithDataFromIntent() {
+    private EditableAccount accountWithDataFromIntent() {
         Account accountFromIntent = (Account) getIntent().getSerializableExtra("account");
         account.setId(accountFromIntent.getId());
         account.setName(accountFromIntent.getName());

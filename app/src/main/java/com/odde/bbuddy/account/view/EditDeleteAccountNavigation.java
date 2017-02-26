@@ -3,7 +3,7 @@ package com.odde.bbuddy.account.view;
 import android.content.Context;
 import android.content.Intent;
 
-import com.odde.bbuddy.account.viewmodel.Account;
+import com.odde.bbuddy.account.model.Account;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

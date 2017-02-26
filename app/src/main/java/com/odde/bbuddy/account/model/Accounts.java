@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.odde.bbuddy.account.viewmodel.Account;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
 

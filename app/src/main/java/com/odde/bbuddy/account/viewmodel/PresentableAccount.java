@@ -1,5 +1,7 @@
 package com.odde.bbuddy.account.viewmodel;
 
+import com.odde.bbuddy.account.model.Account;
+
 import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;
 

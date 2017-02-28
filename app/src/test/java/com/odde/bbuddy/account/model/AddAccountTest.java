@@ -1,4 +1,4 @@
-package com.odde.bbuddy.account;
+package com.odde.bbuddy.account.model;
 
 import com.odde.bbuddy.account.model.Accounts;
 import com.odde.bbuddy.account.viewmodel.Account;

@@ -1,4 +1,4 @@
-package com.odde.bbuddy.account;
+package com.odde.bbuddy.account.model;
 
 import android.support.annotation.NonNull;
 

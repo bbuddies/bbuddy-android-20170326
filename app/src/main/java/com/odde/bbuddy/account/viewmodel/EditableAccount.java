@@ -61,6 +61,10 @@ public class EditableAccount {
         this.balanceBroughtForward = balanceBroughtForward;
     }
 
+    public int getBalanceBroughtForward() {
+        return balanceBroughtForward;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

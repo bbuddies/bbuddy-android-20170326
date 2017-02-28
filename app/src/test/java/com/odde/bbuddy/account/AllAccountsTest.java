@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.odde.bbuddy.account.model.Accounts;
-import com.odde.bbuddy.account.model.Account;
+import com.odde.bbuddy.account.viewmodel.Account;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
 

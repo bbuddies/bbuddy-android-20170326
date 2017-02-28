@@ -1,6 +1,5 @@
 package com.odde.bbuddy.account.viewmodel;
 
-import com.odde.bbuddy.account.model.Account;
 import com.odde.bbuddy.account.model.Accounts;
 import com.odde.bbuddy.account.view.EditDeleteAccountNavigation;
 import com.odde.bbuddy.common.Consumer;

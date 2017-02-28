@@ -1,4 +1,4 @@
-package com.odde.bbuddy.account.model;
+package com.odde.bbuddy.account.viewmodel;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

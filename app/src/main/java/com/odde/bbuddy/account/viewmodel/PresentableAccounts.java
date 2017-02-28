@@ -14,24 +14,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import dagger.Lazy;
 
 @PresentationModel
+@Singleton
 public class PresentableAccounts implements HasPresentationModelChangeSupport {
 
-    private final PresentationModelChangeSupport changeSupport = new PresentationModelChangeSupport(this);
+    private final Lazy<PresentationModelChangeSupport> changeSupportLazyLoader;
     private final EditDeleteAccountNavigation editDeleteAccountNavigation;
     private final List<Account> allAccounts = new ArrayList<>();
 
     @Inject
-    public PresentableAccounts(Accounts accounts, EditDeleteAccountNavigation editDeleteAccountNavigation) {
+    public PresentableAccounts(Accounts accounts, EditDeleteAccountNavigation editDeleteAccountNavigation, Lazy<PresentationModelChangeSupport> changeSupportLazyLoader) {
         this.editDeleteAccountNavigation = editDeleteAccountNavigation;
+        this.changeSupportLazyLoader = changeSupportLazyLoader;
         accounts.processAllAccounts(new Consumer<List<Account>>() {
             @Override
             public void accept(List<Account> list) {
                 allAccounts.addAll(list);
-                changeSupport.refreshPresentationModel();
+                changeSupport().refreshPresentationModel();
             }
         });
+    }
+
+    private PresentationModelChangeSupport changeSupport() {
+        return this.changeSupportLazyLoader.get();
     }
 
     @ItemPresentationModel(value = PresentableAccount.class)
@@ -49,6 +58,6 @@ public class PresentableAccounts implements HasPresentationModelChangeSupport {
 
     @Override
     public PresentationModelChangeSupport getPresentationModelChangeSupport() {
-        return changeSupport;
+        return changeSupport();
     }
 }

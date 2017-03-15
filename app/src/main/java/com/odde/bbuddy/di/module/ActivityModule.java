@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.odde.bbuddy.account.viewmodel.PresentableAccounts;
+import com.odde.bbuddy.di.scope.ActivityScope;
 
 import org.robobinding.ViewBinder;
 import org.robobinding.binder.BinderFactoryBuilder;
@@ -21,17 +22,17 @@ public class ActivityModule {
         this.activity = activity;
     }
 
-    @Provides
+    @Provides @ActivityScope
     Context provideContext() {
         return activity;
     }
 
-    @Provides
+    @Provides @ActivityScope
     ViewBinder provideViewBinder() {
         return new BinderFactoryBuilder().build().createViewBinder(activity);
     }
 
-    @Provides
+    @Provides @ActivityScope
     PresentationModelChangeSupport providePresentationModelChangeSupport(PresentableAccounts presentableAccounts) {
         return new PresentationModelChangeSupport(presentableAccounts);
     }

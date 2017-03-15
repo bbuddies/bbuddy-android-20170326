@@ -3,6 +3,7 @@ package com.odde.bbuddy.account.viewmodel;
 import com.odde.bbuddy.account.model.Accounts;
 import com.odde.bbuddy.account.view.EditDeleteAccountNavigation;
 import com.odde.bbuddy.common.Consumer;
+import com.odde.bbuddy.di.scope.ActivityScope;
 
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.annotation.PresentationModel;
@@ -14,12 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import dagger.Lazy;
 
 @PresentationModel
-@Singleton
+@ActivityScope
 public class PresentableAccounts implements HasPresentationModelChangeSupport {
 
     private final Lazy<PresentationModelChangeSupport> changeSupportLazyLoader;

@@ -16,15 +16,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-@Singleton
 public class Accounts {
 
     private final JsonBackend jsonBackend;
 
-    @Inject
     public Accounts(JsonBackend jsonBackend) {
         this.jsonBackend = jsonBackend;
     }

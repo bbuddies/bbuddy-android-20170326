@@ -28,6 +28,11 @@ public class ActivityModule {
     }
 
     @Provides @ActivityScope
+    Activity provideActivity() {
+        return activity;
+    }
+
+    @Provides @ActivityScope
     ViewBinder provideViewBinder() {
         return new BinderFactoryBuilder().build().createViewBinder(activity);
     }

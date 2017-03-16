@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:hint="Month"
             android:inputType="textCapWords"
-            android:id="@+id/Month" />
+            android:id="@+id/Month"
+            bind:text = "${month}"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -34,13 +35,15 @@
             android:layout_height="wrap_content"
             android:hint="Amount"
             android:inputType="number"
-            android:id="@+id/Amount" />
+            android:id="@+id/Amount"
+            bind:text = "${amount}"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:text="@string/confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/confirm" />
+        android:id="@+id/confirm"
+        bind:onClick = "add"/>
 
 </LinearLayout>

@@ -6,16 +6,20 @@ import org.robobinding.annotation.PresentationModel;
 
 import javax.inject.Inject;
 
+import static java.lang.Integer.parseInt;
+
 @PresentationModel
 @ActivityScope
 public class EditableBudget {
 
+    private final Budgets budgets;
     private final ShowAllBudgetsNavigation showAllBudgetsNavigation;
     private String month;
     private String amount;
 
     @Inject
-    public EditableBudget(ShowAllBudgetsNavigation showAllBudgetsNavigation) {
+    public EditableBudget(Budgets budgets, ShowAllBudgetsNavigation showAllBudgetsNavigation) {
+        this.budgets = budgets;
         this.showAllBudgetsNavigation = showAllBudgetsNavigation;
     }
 
@@ -36,6 +40,14 @@ public class EditableBudget {
     }
 
     public void add(){
+        addBudget();
         showAllBudgetsNavigation.navigate();
+    }
+
+    private void addBudget() {
+        Budget budget = new Budget();
+        budget.setMonth(month);
+        budget.setAmount(parseInt(amount));
+        budgets.add(budget);
     }
 }

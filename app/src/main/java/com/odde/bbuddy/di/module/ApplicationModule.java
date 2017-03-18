@@ -3,6 +3,7 @@ package com.odde.bbuddy.di.module;
 import android.app.Application;
 
 import com.odde.bbuddy.account.model.Accounts;
+import com.odde.bbuddy.budget.Budgets;
 import com.odde.bbuddy.common.JsonBackend;
 
 import javax.inject.Singleton;
@@ -27,6 +28,11 @@ public class ApplicationModule {
     @Provides @Singleton
     public Accounts provideAccounts(JsonBackend jsonBackend) {
         return new Accounts(jsonBackend);
+    }
+
+    @Provides @Singleton
+    public Budgets provideBudgets() {
+        return new Budgets();
     }
 
 }

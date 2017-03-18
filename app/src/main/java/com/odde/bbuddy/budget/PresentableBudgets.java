@@ -4,30 +4,36 @@ import com.odde.bbuddy.di.scope.ActivityScope;
 
 import org.robobinding.annotation.ItemPresentationModel;
 import org.robobinding.annotation.PresentationModel;
+import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
+import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 @PresentationModel
 @ActivityScope
-public class PresentableBudgets {
+public class PresentableBudgets implements HasPresentationModelChangeSupport {
 
-    private List<Budget> allBudgets = new ArrayList<Budget>() {{
-        Budget budget = new Budget();
-        budget.setMonth("2017-01");
-        budget.setAmount(1000);
-        add(budget);
-    }};
+    private List<Budget> allBudgets;
+    private final PresentationModelChangeSupport presentationModelChangeSupport = new PresentationModelChangeSupport(this);
 
     @Inject
-    public PresentableBudgets() { }
+    public PresentableBudgets(Budgets budgets) {
+        allBudgets = budgets.getAllBudgets();
+    }
 
     @ItemPresentationModel(value = PresentableBudget.class)
     public List<Budget> getBudgets() {
         return allBudgets;
     }
 
+    public void refresh() {
+        presentationModelChangeSupport.refreshPresentationModel();
+    }
 
+    @Override
+    public PresentationModelChangeSupport getPresentationModelChangeSupport() {
+        return presentationModelChangeSupport;
+    }
 }

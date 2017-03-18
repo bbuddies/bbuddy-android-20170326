@@ -37,4 +37,9 @@ public class ShowAllAccountsActivity extends Fragment {
         return viewBinder.inflateAndBindWithoutAttachingToRoot(R.layout.activity_adapter_view, presentableAccounts, container);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        presentableAccounts.refresh();
+    }
 }

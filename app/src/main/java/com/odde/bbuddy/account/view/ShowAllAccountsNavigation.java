@@ -1,9 +1,7 @@
 package com.odde.bbuddy.account.view;
 
-import android.content.Context;
-import android.content.Intent;
+import android.app.Activity;
 
-import com.odde.bbuddy.DashboardActivity;
 import com.odde.bbuddy.di.scope.ActivityScope;
 
 import javax.inject.Inject;
@@ -11,16 +9,14 @@ import javax.inject.Inject;
 @ActivityScope
 public class ShowAllAccountsNavigation {
 
-    private final Context context;
+    private final Activity activity;
 
     @Inject
-    public ShowAllAccountsNavigation(Context context) {
-        this.context = context;
+    public ShowAllAccountsNavigation(Activity activity) {
+        this.activity = activity;
     }
 
     public void navigate() {
-        Intent intent = new Intent(context, DashboardActivity.class);
-        intent.putExtra("tabPosition", 1);
-        context.startActivity(intent);
+        activity.finish();
     }
 }

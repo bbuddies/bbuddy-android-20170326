@@ -24,20 +24,16 @@ import dagger.Lazy;
 public class PresentableAccounts implements HasPresentationModelChangeSupport {
 
     private final Lazy<PresentationModelChangeSupport> changeSupportLazyLoader;
+    private final Accounts accounts;
     private final EditDeleteAccountNavigation editDeleteAccountNavigation;
     private final List<Account> allAccounts = new ArrayList<>();
 
     @Inject
     public PresentableAccounts(Accounts accounts, EditDeleteAccountNavigation editDeleteAccountNavigation, @Named("accounts") Lazy<PresentationModelChangeSupport> changeSupportLazyLoader) {
+        this.accounts = accounts;
         this.editDeleteAccountNavigation = editDeleteAccountNavigation;
         this.changeSupportLazyLoader = changeSupportLazyLoader;
-        accounts.processAllAccounts(new Consumer<List<Account>>() {
-            @Override
-            public void accept(List<Account> list) {
-                allAccounts.addAll(list);
-                changeSupport().refreshPresentationModel();
-            }
-        });
+        refresh();
     }
 
     private PresentationModelChangeSupport changeSupport() {
@@ -60,5 +56,16 @@ public class PresentableAccounts implements HasPresentationModelChangeSupport {
     @Override
     public PresentationModelChangeSupport getPresentationModelChangeSupport() {
         return changeSupport();
+    }
+
+    public void refresh() {
+        accounts.processAllAccounts(new Consumer<List<Account>>() {
+            @Override
+            public void accept(List<Account> list) {
+                allAccounts.clear();
+                allAccounts.addAll(list);
+                changeSupport().refreshPresentationModel();
+            }
+        });
     }
 }

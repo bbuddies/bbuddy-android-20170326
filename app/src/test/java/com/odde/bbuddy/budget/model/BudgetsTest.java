@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.odde.bbuddy.budget.viewmodel.Budget;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
+import com.odde.bbuddy.common.JsonMapper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +28,8 @@ import static org.mockito.Mockito.verify;
 public class BudgetsTest {
 
     JsonBackend mockJsonBackend = mock(JsonBackend.class);
-    Budgets budgets = new Budgets(mockJsonBackend);
+    JsonMapper<Budget> jsonMapper = new JsonMapper<>(Budget.class);
+    Budgets budgets = new Budgets(mockJsonBackend, jsonMapper);
     Budget budget = new Budget();
     Consumer mockConsumer = mock(Consumer.class);
 

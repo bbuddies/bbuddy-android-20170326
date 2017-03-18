@@ -1,4 +1,4 @@
-package com.odde.bbuddy.budget;
+package com.odde.bbuddy.budget.viewmodel;
 
 import org.robobinding.itempresentationmodel.ItemContext;
 import org.robobinding.itempresentationmodel.ItemPresentationModel;

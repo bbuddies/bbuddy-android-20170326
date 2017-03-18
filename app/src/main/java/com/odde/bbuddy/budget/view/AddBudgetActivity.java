@@ -1,10 +1,11 @@
-package com.odde.bbuddy.budget;
+package com.odde.bbuddy.budget.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.odde.bbuddy.R;
+import com.odde.bbuddy.budget.viewmodel.EditableBudget;
 
 import org.robobinding.ViewBinder;
 

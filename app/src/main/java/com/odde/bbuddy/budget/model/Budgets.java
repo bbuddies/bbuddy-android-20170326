@@ -1,10 +1,9 @@
-package com.odde.bbuddy.budget;
-
-import android.support.annotation.NonNull;
+package com.odde.bbuddy.budget.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.odde.bbuddy.budget.viewmodel.Budget;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
 
@@ -37,7 +36,6 @@ public class Budgets {
         });
     }
 
-    @NonNull
     private JSONObject jsonOf(Budget budget) {
         try {
             return new JSONObject(new ObjectMapper().writeValueAsString(budget));
@@ -48,7 +46,7 @@ public class Budgets {
         }
     }
 
-    public void getAllBudgets(final Consumer<List<Budget>> consumer) {
+    public void processAllBudgets(final Consumer<List<Budget>> consumer) {
         jsonBackend.getRequestForJsonArray("/budgets", new Consumer<JSONArray>() {
             @Override
             public void accept(JSONArray response) {

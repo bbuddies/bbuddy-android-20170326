@@ -1,4 +1,4 @@
-package com.odde.bbuddy.budget;
+package com.odde.bbuddy.budget.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.odde.bbuddy.R;
+import com.odde.bbuddy.budget.viewmodel.PresentableBudgets;
 
 import org.robobinding.ViewBinder;
 

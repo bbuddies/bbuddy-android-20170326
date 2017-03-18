@@ -26,7 +26,7 @@
         </activity>
         <activity android:name=".DashboardActivity" />
         <activity android:name=".account.view.AddAccountActivity" />
-        <activity android:name=".budget.AddBudgetActivity" />
+        <activity android:name=".budget.view.AddBudgetActivity" />
         <activity android:name=".account.view.EditDeleteAccountActivity"></activity>
     </application>
 

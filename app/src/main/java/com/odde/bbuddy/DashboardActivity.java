@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.odde.bbuddy.account.view.AddAccountActivity;
-import com.odde.bbuddy.budget.AddBudgetActivity;
+import com.odde.bbuddy.budget.view.AddBudgetActivity;
 
 public class DashboardActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 

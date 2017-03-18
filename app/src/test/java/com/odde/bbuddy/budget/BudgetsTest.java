@@ -1,6 +1,8 @@
 package com.odde.bbuddy.budget;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.odde.bbuddy.budget.model.Budgets;
+import com.odde.bbuddy.budget.viewmodel.Budget;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
 
@@ -39,7 +41,7 @@ public class BudgetsTest {
 
     @Test
     public void get_all_budgets_call_backend_correctly() {
-        budgets.getAllBudgets(mockConsumer);
+        budgets.processAllBudgets(mockConsumer);
 
         verify(mockJsonBackend).getRequestForJsonArray(eq("/budgets"), any(Consumer.class));
     }
@@ -48,7 +50,7 @@ public class BudgetsTest {
     public void get_all_budgets_return_data_correctly() {
         given_json_backend_will_return_with_month_and_amount("2017-02", 2000);
 
-        budgets.getAllBudgets(mockConsumer);
+        budgets.processAllBudgets(mockConsumer);
 
         verifyBudgetConsumed("2017-02", 2000);
     }

@@ -1,5 +1,8 @@
 package com.odde.bbuddy.budget;
 
+import com.odde.bbuddy.budget.model.Budgets;
+import com.odde.bbuddy.budget.viewmodel.Budget;
+import com.odde.bbuddy.budget.viewmodel.PresentableBudgets;
 import com.odde.bbuddy.common.Consumer;
 
 import org.junit.Before;
@@ -60,7 +63,7 @@ public class PresentableBudgetsTest {
                 consumer.accept(allBudgets);
                 return null;
             }
-        }).when(stubBudgets).getAllBudgets(any(Consumer.class));
+        }).when(stubBudgets).processAllBudgets(any(Consumer.class));
     }
 
 }

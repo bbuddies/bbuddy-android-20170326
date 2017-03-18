@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.odde.bbuddy.account.viewmodel.PresentableAccounts;
-import com.odde.bbuddy.budget.PresentableBudgets;
+import com.odde.bbuddy.budget.viewmodel.PresentableBudgets;
 import com.odde.bbuddy.di.scope.ActivityScope;
 
 import org.robobinding.ViewBinder;

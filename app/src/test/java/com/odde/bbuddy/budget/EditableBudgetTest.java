@@ -1,5 +1,10 @@
 package com.odde.bbuddy.budget;
 
+import com.odde.bbuddy.budget.model.Budgets;
+import com.odde.bbuddy.budget.view.ShowAllBudgetsNavigation;
+import com.odde.bbuddy.budget.viewmodel.Budget;
+import com.odde.bbuddy.budget.viewmodel.EditableBudget;
+
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 

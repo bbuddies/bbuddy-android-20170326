@@ -1,5 +1,7 @@
-package com.odde.bbuddy.budget;
+package com.odde.bbuddy.budget.viewmodel;
 
+import com.odde.bbuddy.budget.model.Budgets;
+import com.odde.bbuddy.budget.view.ShowAllBudgetsNavigation;
 import com.odde.bbuddy.di.scope.ActivityScope;
 
 import org.robobinding.annotation.PresentationModel;

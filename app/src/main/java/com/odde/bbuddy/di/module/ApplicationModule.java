@@ -3,7 +3,7 @@ package com.odde.bbuddy.di.module;
 import android.app.Application;
 
 import com.odde.bbuddy.account.model.Accounts;
-import com.odde.bbuddy.budget.Budgets;
+import com.odde.bbuddy.budget.model.Budgets;
 import com.odde.bbuddy.common.JsonBackend;
 
 import javax.inject.Singleton;

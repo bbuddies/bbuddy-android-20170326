@@ -1,5 +1,6 @@
-package com.odde.bbuddy.budget;
+package com.odde.bbuddy.budget.viewmodel;
 
+import com.odde.bbuddy.budget.model.Budgets;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.di.scope.ActivityScope;
 
@@ -37,7 +38,7 @@ public class PresentableBudgets implements HasPresentationModelChangeSupport {
     }
 
     public void refresh() {
-        budgets.getAllBudgets(new Consumer<List<Budget>>() {
+        budgets.processAllBudgets(new Consumer<List<Budget>>() {
             @Override
             public void accept(List<Budget> budgets) {
                 allBudgets.clear();

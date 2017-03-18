@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import dagger.Lazy;
 
@@ -27,7 +28,7 @@ public class PresentableAccounts implements HasPresentationModelChangeSupport {
     private final List<Account> allAccounts = new ArrayList<>();
 
     @Inject
-    public PresentableAccounts(Accounts accounts, EditDeleteAccountNavigation editDeleteAccountNavigation, Lazy<PresentationModelChangeSupport> changeSupportLazyLoader) {
+    public PresentableAccounts(Accounts accounts, EditDeleteAccountNavigation editDeleteAccountNavigation, @Named("accounts") Lazy<PresentationModelChangeSupport> changeSupportLazyLoader) {
         this.editDeleteAccountNavigation = editDeleteAccountNavigation;
         this.changeSupportLazyLoader = changeSupportLazyLoader;
         accounts.processAllAccounts(new Consumer<List<Account>>() {

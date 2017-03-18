@@ -10,30 +10,38 @@ import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+
+import dagger.Lazy;
 
 @PresentationModel
 @ActivityScope
 public class PresentableBudgets implements HasPresentationModelChangeSupport {
 
-    private List<Budget> allBudgets;
-    private final PresentationModelChangeSupport presentationModelChangeSupport = new PresentationModelChangeSupport(this);
+    private final Lazy<PresentationModelChangeSupport> presentationModelChangeSupportLoader;
+    private final Budgets budgets;
 
     @Inject
-    public PresentableBudgets(Budgets budgets) {
-        allBudgets = budgets.getAllBudgets();
+    public PresentableBudgets(Budgets budgets, @Named("budgets") Lazy<PresentationModelChangeSupport> presentationModelChangeSupportLoader) {
+        this.budgets = budgets;
+        this.presentationModelChangeSupportLoader = presentationModelChangeSupportLoader;
     }
 
     @ItemPresentationModel(value = PresentableBudget.class)
     public List<Budget> getBudgets() {
-        return allBudgets;
+        return budgets.getAllBudgets();
     }
 
     public void refresh() {
-        presentationModelChangeSupport.refreshPresentationModel();
+        presentationModelChangeSupport().refreshPresentationModel();
+    }
+
+    private PresentationModelChangeSupport presentationModelChangeSupport() {
+        return presentationModelChangeSupportLoader.get();
     }
 
     @Override
     public PresentationModelChangeSupport getPresentationModelChangeSupport() {
-        return presentationModelChangeSupport;
+        return presentationModelChangeSupport();
     }
 }

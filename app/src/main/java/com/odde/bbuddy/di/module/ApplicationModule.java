@@ -31,8 +31,8 @@ public class ApplicationModule {
     }
 
     @Provides @Singleton
-    public Budgets provideBudgets() {
-        return new Budgets();
+    public Budgets provideBudgets(JsonBackend jsonBackend) {
+        return new Budgets(jsonBackend);
     }
 
 }

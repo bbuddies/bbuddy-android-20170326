@@ -1,7 +1,6 @@
-package com.odde.bbuddy.budget;
+package com.odde.bbuddy.budget.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.odde.bbuddy.budget.model.Budgets;
 import com.odde.bbuddy.budget.viewmodel.Budget;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;

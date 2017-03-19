@@ -14,7 +14,7 @@ import java.util.List;
 import dagger.Lazy;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -40,7 +40,7 @@ public class PresentableBudgetsTest {
 
         PresentableBudgets presentableBudgets = new PresentableBudgets(stubBudgets, stubLoader);
 
-        assertEquals(asList(budget), presentableBudgets.getBudgets());
+        assertThat(presentableBudgets.getBudgets()).isEqualTo(asList(budget));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class PresentableBudgetsTest {
         presentableBudgets.refresh();
 
         verify(mockPresentationModelChangeSupport).refreshPresentationModel();
-        assertEquals(asList(budget), presentableBudgets.getBudgets());
+        assertThat(presentableBudgets.getBudgets()).isEqualTo(asList(budget));
     }
 
     private void given_budgets_will_return(final List<Budget> allBudgets) {

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
+import com.odde.bbuddy.common.JsonMapper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,13 +13,14 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 
 public class AuthenticatorTest {
 
@@ -26,26 +28,20 @@ public class AuthenticatorTest {
     Authenticator authenticator = new Authenticator(mockBackend);
     Credentials credentials = new Credentials("abc@gmail.com", "password");
     Consumer afterSuccess = mock(Consumer.class);
+    JsonMapper<Credentials> jsonMapper = new JsonMapper<>(Credentials.class);
 
     @Test
     public void authenticate_with_user_name_and_password() throws JSONException {
-        authenticate();
+        authenticate(credentials("abc@gmail.com", "password"));
 
-        ArgumentCaptor<JSONObject> captor = ArgumentCaptor.forClass(JSONObject.class);
-        verify(mockBackend).postRequestForJson(eq("/auth/sign_in"), captor.capture(), any(Consumer.class), any(Runnable.class));
-        assertEquals("abc@gmail.com", captor.getValue().getString("email"));
-        assertEquals("password", captor.getValue().getString("password"));
-    }
-
-    private void authenticate() {
-        authenticator.authenticate(credentials, afterSuccess);
+        verifyPostWith("/auth/sign_in", credentials("abc@gmail.com", "password"));
     }
 
     @Test
     public void authenticate_successful() {
         given_jsonbackend_will_response(success());
 
-        authenticate();
+        authenticate(credentials);
 
         verify(afterSuccess).accept("success");
     }
@@ -54,12 +50,25 @@ public class AuthenticatorTest {
     public void authenticate_failed() {
         given_jsonbackend_will_response(failed());
 
-        authenticate();
+        authenticate(credentials);
 
         verify(afterSuccess).accept("failed");
     }
 
-    @NonNull
+    private void authenticate(Credentials credentials) {
+        authenticator.authenticate(credentials, afterSuccess);
+    }
+
+    private Credentials credentials(String email, String password) {
+        return new Credentials(email, password);
+    }
+
+    private void verifyPostWith(String path, Credentials credentials) throws JSONException {
+        ArgumentCaptor<JSONObject> captor = forClass(JSONObject.class);
+        verify(mockBackend).postRequestForJson(eq(path), captor.capture(), any(Consumer.class), any(Runnable.class));
+        assertEquals(jsonMapper.jsonOf(credentials), captor.getValue(), true);
+    }
+
     private Answer failed() {
         return new Answer() {
             @Override

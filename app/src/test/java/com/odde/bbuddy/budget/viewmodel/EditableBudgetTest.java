@@ -2,13 +2,12 @@ package com.odde.bbuddy.budget.viewmodel;
 
 import com.odde.bbuddy.budget.model.Budgets;
 import com.odde.bbuddy.budget.view.ShowAllBudgetsNavigation;
-import com.odde.bbuddy.budget.viewmodel.Budget;
-import com.odde.bbuddy.budget.viewmodel.EditableBudget;
 
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -20,26 +19,32 @@ public class EditableBudgetTest {
 
     @Test
     public void add_should_show_all_budgets() {
-        addBudgetWithMonthAndAmount("2017-01", "1000");
+        addBudget("2017-01", "1000");
 
         verify(mockShowAllBudgetsNavigation).navigate();
     }
 
     @Test
     public void add_should_correctly_add_budget() {
-        addBudgetWithMonthAndAmount("2017-01", "1000");
+        addBudget("2017-01", "1000");
 
-        verifyBudgetsAddWithMonthAndAmout("2017-01", 1000);
+        verifyBudgetsAddWithBudget(budget("2017-01", 1000));
     }
 
-    private void verifyBudgetsAddWithMonthAndAmout(String month, int amount) {
-        ArgumentCaptor<Budget> captor = ArgumentCaptor.forClass(Budget.class);
+    private void verifyBudgetsAddWithBudget(Budget budget) {
+        ArgumentCaptor<Budget> captor = forClass(Budget.class);
         verify(mockBudgets).add(captor.capture());
-        assertEquals(month, captor.getValue().getMonth());
-        assertEquals(amount, captor.getValue().getAmount());
+        assertThat(captor.getValue()).isEqualToComparingFieldByField(budget);
     }
 
-    private void addBudgetWithMonthAndAmount(String month, String amount) {
+    private Budget budget(String month, int amount) {
+        Budget budget = new Budget();
+        budget.setMonth(month);
+        budget.setAmount(amount);
+        return budget;
+    }
+
+    private void addBudget(String month, String amount) {
         editableBudget.setMonth(month);
         editableBudget.setAmount(amount);
         editableBudget.add();

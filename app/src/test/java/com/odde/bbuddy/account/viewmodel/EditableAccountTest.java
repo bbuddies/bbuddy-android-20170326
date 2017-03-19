@@ -11,6 +11,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Stubber;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +32,7 @@ public class EditableAccountTest {
         public void add_should_correctly_add_account() {
             addAccount("name", 100);
 
-            verifyAccountsAddWithAccount("name", 100);
+            verifyAccountsAddWithAccount(account("name", 100));
         }
 
         @Test
@@ -47,11 +48,10 @@ public class EditableAccountTest {
             callRunnable().when(mockAccounts).addAccount(any(Account.class), any(Runnable.class));
         }
 
-        private void verifyAccountsAddWithAccount(String name, int balanceBroughtForward) {
+        private void verifyAccountsAddWithAccount(Account account) {
             ArgumentCaptor<Account> captor = forClass(Account.class);
             verify(mockAccounts).addAccount(captor.capture(), any(Runnable.class));
-            assertEquals(name, captor.getValue().getName());
-            assertEquals(balanceBroughtForward, captor.getValue().getBalanceBroughtForward());
+            assertThat(captor.getValue()).isEqualToComparingFieldByField(account);
         }
 
         private void addAccount(String name, int balanceBroughtForward) {
@@ -69,7 +69,7 @@ public class EditableAccountTest {
 
             editAccount("name", 100);
 
-            verifyAccountsEditWithAccount(1, "name", 100);
+            verifyAccountsEditWithAccount(account(1, "name", 100));
         }
 
         @Test
@@ -88,12 +88,10 @@ public class EditableAccountTest {
             editableAccount.update();
         }
 
-        private void verifyAccountsEditWithAccount(int id, String name, int balanceBroughtForward) {
+        private void verifyAccountsEditWithAccount(Account account) {
             ArgumentCaptor<Account> captor = forClass(Account.class);
             verify(mockAccounts).editAccount(captor.capture(), any(Runnable.class));
-            assertEquals(id, captor.getValue().getId());
-            assertEquals(name, captor.getValue().getName());
-            assertEquals(balanceBroughtForward, captor.getValue().getBalanceBroughtForward());
+            assertThat(captor.getValue()).isEqualToComparingFieldByField(account);
         }
 
         private void given_edit_account_will_success() {
@@ -109,7 +107,7 @@ public class EditableAccountTest {
 
             editableAccount.delete();
 
-            verifyAccountsDeleteWithAccount(1);
+            verifyAccountsDeleteWithAccount(account(1));
         }
 
         @Test
@@ -122,10 +120,10 @@ public class EditableAccountTest {
             verify(mockShowAllAccountsNavigation).navigate();
         }
 
-        private void verifyAccountsDeleteWithAccount(int id) {
+        private void verifyAccountsDeleteWithAccount(Account account) {
             ArgumentCaptor<Account> captor = forClass(Account.class);
             verify(mockAccounts).deleteAccount(captor.capture(), any(Runnable.class));
-            assertEquals(id, captor.getValue().getId());
+            assertThat(captor.getValue()).isEqualToComparingFieldByField(account);
         }
 
         private void given_account_delete_will_success() {
@@ -176,4 +174,21 @@ public class EditableAccountTest {
         });
     }
 
+    private Account account(String name, int balanceBroughtForward) {
+        return account(0, name, balanceBroughtForward);
+    }
+
+    private Account account(int id) {
+        Account account = new Account();
+        account.setId(id);
+        return account;
+    }
+
+    private Account account(int id, String name, int balanceBroughtForward) {
+        Account account = new Account();
+        account.setId(id);
+        account.setName(name);
+        account.setBalanceBroughtForward(balanceBroughtForward);
+        return account;
+    }
 }

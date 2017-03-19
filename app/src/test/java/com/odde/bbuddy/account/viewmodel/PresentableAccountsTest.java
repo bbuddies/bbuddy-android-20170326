@@ -18,7 +18,7 @@ import java.util.List;
 import dagger.Lazy;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -43,7 +43,7 @@ public class PresentableAccountsTest {
     public void get_all_accounts() {
         given_accounts_will_return(asList(account));
 
-        assertEquals(asList(account), createPresentableAccounts().getAccounts());
+        assertThat(createPresentableAccounts().getAccounts()).isEqualTo(asList(account));
     }
 
     @Test
@@ -53,6 +53,7 @@ public class PresentableAccountsTest {
         presentableAccounts.refresh();
 
         verify(mockPresentationModelChangeSupport).refreshPresentationModel();
+        assertThat(presentableAccounts.getAccounts()).isEqualTo(asList(account));
     }
     
     @Test

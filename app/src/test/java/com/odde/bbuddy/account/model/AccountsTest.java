@@ -17,6 +17,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Stubber;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class AccountsTest {
         public void add_account_with_name_and_balance_brought_forward() throws JSONException {
             accounts.addAccount(account("name", 1000), mockRunnable);
 
-            verifyPostWith("/accounts", "name", 1000);
+            verifyPostWith("/accounts", account("name", 1000));
         }
 
         @Test
@@ -57,11 +58,10 @@ public class AccountsTest {
             verify(mockRunnable).run();
         }
 
-        private void verifyPostWith(String path, String name, int balance) throws JSONException {
+        private void verifyPostWith(String path, Account account) throws JSONException {
             ArgumentCaptor<JSONObject> captor = ArgumentCaptor.forClass(JSONObject.class);
             verify(mockJsonBackend).postRequestForJson(eq(path), captor.capture(), any(Consumer.class), any(Runnable.class));
-            assertEquals(name, captor.getValue().getString("name"));
-            assertEquals(balance, captor.getValue().getInt("balance"));
+            JSONAssert.assertEquals(jsonMapper.jsonOf(account), captor.getValue(), true);
         }
 
         private void given_backend_will_success() {
@@ -75,7 +75,7 @@ public class AccountsTest {
         public void edit_account_with_id_name_and_balance_brought_forward() throws JSONException {
             accounts.editAccount(account(ID, "name", 1000), mockRunnable);
 
-            verifyPutWith("/accounts/" + ID, "name", 1000);
+            verifyPutWith("/accounts/" + ID, account(ID, "name", 1000));
         }
 
         @Test
@@ -87,11 +87,10 @@ public class AccountsTest {
             verify(mockRunnable).run();
         }
 
-        private void verifyPutWith(String path, String name, int balance) throws JSONException {
+        private void verifyPutWith(String path, Account account) throws JSONException {
             ArgumentCaptor<JSONObject> captor = ArgumentCaptor.forClass(JSONObject.class);
             verify(mockJsonBackend).putRequestForJson(eq(path), captor.capture(), any(Consumer.class), any(Runnable.class));
-            assertEquals(name, captor.getValue().getString("name"));
-            assertEquals(balance, captor.getValue().getInt("balance"));
+            JSONAssert.assertEquals(jsonMapper.jsonOf(account), captor.getValue(), true);
         }
 
         private void given_backend_will_success() {
@@ -155,6 +154,7 @@ public class AccountsTest {
         private void verifyAccountConsumed(String name, int balance) {
             ArgumentCaptor<List<Account>> captor = ArgumentCaptor.forClass(List.class);
             verify(mockConsumer).accept(captor.capture());
+            assertEquals(1, captor.getValue().size());
             assertEquals(name, captor.getValue().get(0).getName());
             assertEquals(balance, captor.getValue().get(0).getBalanceBroughtForward());
         }

@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.util.List;
 
@@ -30,30 +31,33 @@ public class BudgetsTest {
     JsonBackend mockJsonBackend = mock(JsonBackend.class);
     JsonMapper<Budget> jsonMapper = new JsonMapper<>(Budget.class);
     Budgets budgets = new Budgets(mockJsonBackend, jsonMapper);
-    Budget budget = new Budget();
     Consumer mockConsumer = mock(Consumer.class);
 
     @Test
     public void add_budget_with_month_and_amount() throws JSONException {
-        addBudgetWithMonthAndAmount("2017-02", 2000);
+        budgets.add(budget("2017-02", 2000));
 
-        verifyJsonBackendCalledWith("/budgets", "2017-02", 2000);
+        verifyPostWith("/budgets", budget("2017-02", 2000));
     }
 
     @Test
     public void get_all_budgets_call_backend_correctly() {
         budgets.processAllBudgets(mockConsumer);
 
-        verify(mockJsonBackend).getRequestForJsonArray(eq("/budgets"), any(Consumer.class));
+        verifyGetWith("/budgets");
     }
 
     @Test
     public void get_all_budgets_return_data_correctly() {
-        given_json_backend_will_return_with_month_and_amount("2017-02", 2000);
+        given_json_backend_will_return_with_month_and_amount(budget("2017-02", 2000));
 
         budgets.processAllBudgets(mockConsumer);
 
         verifyBudgetConsumed("2017-02", 2000);
+    }
+
+    private void verifyGetWith(String path) {
+        verify(mockJsonBackend).getRequestForJsonArray(eq(path), any(Consumer.class));
     }
 
     private void verifyBudgetConsumed(String month, int amount) {
@@ -64,9 +68,7 @@ public class BudgetsTest {
         assertEquals(amount, captor.getValue().get(0).getAmount());
     }
 
-    private void given_json_backend_will_return_with_month_and_amount(String month, int amount) {
-        budget.setMonth(month);
-        budget.setAmount(amount);
+    private void given_json_backend_will_return_with_month_and_amount(final Budget budget) {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -77,17 +79,17 @@ public class BudgetsTest {
         }).when(mockJsonBackend).getRequestForJsonArray(anyString(), any(Consumer.class));
     }
 
-    private void verifyJsonBackendCalledWith(String path, String month, int amount) throws JSONException {
+    private void verifyPostWith(String path, Budget budget) throws JSONException {
         ArgumentCaptor<JSONObject> captor = ArgumentCaptor.forClass(JSONObject.class);
         verify(mockJsonBackend).postRequestForJson(eq(path), captor.capture(), any(Consumer.class), any(Runnable.class));
-        assertEquals(month, captor.getValue().getString("month"));
-        assertEquals(amount, captor.getValue().getInt("amount"));
+        JSONAssert.assertEquals(jsonMapper.jsonOf(budget), captor.getValue(), true);
     }
 
-    private void addBudgetWithMonthAndAmount(String month, int amount) {
+    private Budget budget(String month, int amount) {
+        Budget budget = new Budget();
         budget.setMonth(month);
         budget.setAmount(amount);
-        budgets.add(budget);
+        return budget;
     }
 
 }

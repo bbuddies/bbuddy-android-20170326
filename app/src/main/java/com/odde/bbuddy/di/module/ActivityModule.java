@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.odde.bbuddy.account.viewmodel.PresentableAccounts;
-import com.odde.bbuddy.budget.viewmodel.PresentableBudgets;
 import com.odde.bbuddy.di.scope.ActivityScope;
 
 import org.robobinding.ViewBinder;
@@ -43,11 +42,6 @@ public class ActivityModule {
     @Provides @ActivityScope @Named("accounts")
     PresentationModelChangeSupport providePresentationModelChangeSupportForAccounts(PresentableAccounts presentableAccounts) {
         return new PresentationModelChangeSupport(presentableAccounts);
-    }
-
-    @Provides @ActivityScope @Named("budgets")
-    PresentationModelChangeSupport providePresentationModelChangeSupportForBudgets(PresentableBudgets presentableBudgets) {
-        return new PresentationModelChangeSupport(presentableBudgets);
     }
 
 }

@@ -34,7 +34,7 @@ public class ShowAllAccountsActivity extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return viewBinder.inflateAndBindWithoutAttachingToRoot(R.layout.activity_adapter_view, presentableAccounts, container);
+        return viewBinder.inflateAndBindWithoutAttachingToRoot(R.layout.activity_accounts, presentableAccounts, container);
     }
 
     @Override

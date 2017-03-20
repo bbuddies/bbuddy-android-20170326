@@ -36,6 +36,14 @@ public class JsonMapper<T> {
         }
     }
 
+    public JSONArray jsonArrayOf(List<T> listOfT) {
+        try {
+            return new JSONArray(mapper.writeValueAsString(listOfT));
+        } catch (JSONException | JsonProcessingException e) {
+            throw new IllegalStateException();
+        }
+    }
+
     private CollectionType typeToBeMapped() {
         return mapper.getTypeFactory().constructCollectionType(List.class, clazz);
     }

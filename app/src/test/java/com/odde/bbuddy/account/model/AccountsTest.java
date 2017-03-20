@@ -1,7 +1,6 @@
 package com.odde.bbuddy.account.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nitorcreations.junit.runners.NestedRunner;
 import com.odde.bbuddy.account.viewmodel.Account;
 import com.odde.bbuddy.common.Consumer;
@@ -158,7 +157,7 @@ public class AccountsTest {
         }
 
         private void given_backend_return_json_with_account(final Account account) throws JSONException, JsonProcessingException {
-            callJsonConsumerArgumentAtIndexWithJsonArray(1, jsonArrayOf(account)).when(mockJsonBackend).getRequestForJsonArray(anyString(), any(Consumer.class));
+            callJsonConsumerArgumentAtIndexWithJsonArray(1, jsonMapper.jsonArrayOf(asList(account))).when(mockJsonBackend).getRequestForJsonArray(anyString(), any(Consumer.class));
         }
 
         private void processAllAccounts() {
@@ -204,10 +203,6 @@ public class AccountsTest {
         account.setName(name);
         account.setBalanceBroughtForward(balanceBroughtForward);
         return account;
-    }
-
-    private JSONArray jsonArrayOf(Account account) throws JSONException, JsonProcessingException {
-        return new JSONArray(new ObjectMapper().writeValueAsString(asList(account)));
     }
 
 }

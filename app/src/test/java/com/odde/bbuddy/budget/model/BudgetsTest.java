@@ -1,12 +1,10 @@
 package com.odde.bbuddy.budget.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.odde.bbuddy.budget.viewmodel.Budget;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
 import com.odde.bbuddy.common.JsonMapper;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -71,7 +69,7 @@ public class BudgetsTest {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 Consumer consumer = invocation.getArgument(1);
-                consumer.accept(new JSONArray(new ObjectMapper().writeValueAsString(asList(budget))));
+                consumer.accept(jsonMapper.jsonArrayOf(asList(budget)));
                 return null;
             }
         }).when(mockJsonBackend).getRequestForJsonArray(anyString(), any(Consumer.class));

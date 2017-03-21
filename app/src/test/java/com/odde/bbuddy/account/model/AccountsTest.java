@@ -7,24 +7,20 @@ import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
 import com.odde.bbuddy.common.JsonMapper;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.mockito.stubbing.Stubber;
 
 import java.util.List;
 
+import static com.odde.bbuddy.common.CallbackInvoker.callConsumerArgumentAtIndexWith;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
@@ -64,7 +60,7 @@ public class AccountsTest {
         }
 
         private void given_backend_will_success() {
-            callJsonConsumerArgumentAtIndex(2, new JSONObject()).when(mockJsonBackend).postRequestForJson(anyString(), any(JSONObject.class), any(Consumer.class), any(Runnable.class));
+            callConsumerArgumentAtIndexWith(2, new JSONObject()).when(mockJsonBackend).postRequestForJson(anyString(), any(JSONObject.class), any(Consumer.class), any(Runnable.class));
         }
     }
 
@@ -93,7 +89,7 @@ public class AccountsTest {
         }
 
         private void given_backend_will_success() {
-            callJsonConsumerArgumentAtIndex(2, new JSONObject()).when(mockJsonBackend).putRequestForJson(anyString(), any(JSONObject.class), any(Consumer.class), any(Runnable.class));
+            callConsumerArgumentAtIndexWith(2, new JSONObject()).when(mockJsonBackend).putRequestForJson(anyString(), any(JSONObject.class), any(Consumer.class), any(Runnable.class));
         }
 
     }
@@ -121,7 +117,7 @@ public class AccountsTest {
         }
 
         private void given_backend_will_success() {
-            callJsonConsumerArgumentAtIndex(1, new JSONObject()).when(mockJsonBackend).deleteRequestForJson(anyString(), any(Consumer.class), any(Runnable.class));
+            callConsumerArgumentAtIndexWith(1, new JSONObject()).when(mockJsonBackend).deleteRequestForJson(anyString(), any(Consumer.class), any(Runnable.class));
         }
 
     }
@@ -157,34 +153,12 @@ public class AccountsTest {
         }
 
         private void given_backend_return_json_with_account(final Account account) throws JSONException, JsonProcessingException {
-            callJsonConsumerArgumentAtIndexWithJsonArray(1, jsonMapper.jsonArrayOf(asList(account))).when(mockJsonBackend).getRequestForJsonArray(anyString(), any(Consumer.class));
+            callConsumerArgumentAtIndexWith(1, jsonMapper.jsonArrayOf(asList(account))).when(mockJsonBackend).getRequestForJsonArray(anyString(), any(Consumer.class));
         }
 
         private void processAllAccounts() {
             accounts.processAllAccounts(mockConsumer);
         }
-    }
-
-    private Stubber callJsonConsumerArgumentAtIndex(final int index, final JSONObject data) {
-        return doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Consumer consumer = invocation.getArgument(index);
-                consumer.accept(data);
-                return null;
-            }
-        });
-    }
-
-    private Stubber callJsonConsumerArgumentAtIndexWithJsonArray(final int index, final JSONArray data) {
-        return doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Consumer consumer = invocation.getArgument(index);
-                consumer.accept(data);
-                return null;
-            }
-        });
     }
 
     private Account account(String name, int balanceBroughtForward) {

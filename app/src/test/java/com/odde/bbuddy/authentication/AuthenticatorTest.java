@@ -10,14 +10,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
+import org.mockito.stubbing.Stubber;
 
+import static com.odde.bbuddy.common.CallbackInvoker.callConsumerArgumentAtIndexWith;
+import static com.odde.bbuddy.common.CallbackInvoker.callRunnableAtIndex;
 import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
@@ -69,31 +69,17 @@ public class AuthenticatorTest {
         assertEquals(jsonMapper.jsonOf(credentials), captor.getValue(), true);
     }
 
-    private Answer failed() {
-        return new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Runnable runnable = invocation.getArgument(3);
-                runnable.run();
-                return null;
-            }
-        };
+    private Stubber failed() {
+        return callRunnableAtIndex(3);
     }
 
-    private void given_jsonbackend_will_response(Answer answer) {
-        doAnswer(answer).when(mockBackend).postRequestForJson(anyString(), any(JSONObject.class), any(Consumer.class), any(Runnable.class));
+    private void given_jsonbackend_will_response(Stubber stubber) {
+        stubber.when(mockBackend).postRequestForJson(anyString(), any(JSONObject.class), any(Consumer.class), any(Runnable.class));
     }
 
     @NonNull
-    private Answer success() {
-        return new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Consumer consumer = invocation.getArgument(2);
-                consumer.accept(new JSONObject());
-                return null;
-            }
-        };
+    private Stubber success() {
+        return callConsumerArgumentAtIndexWith(2, new JSONObject());
     }
 
 }

@@ -7,15 +7,12 @@ import com.odde.bbuddy.account.view.ShowAllAccountsNavigation;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.mockito.stubbing.Stubber;
 
+import static com.odde.bbuddy.common.CallbackInvoker.callRunnableAtIndex;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -45,7 +42,7 @@ public class EditableAccountTest {
         }
 
         private void given_add_account_will_success() {
-            callRunnable().when(mockAccounts).addAccount(any(Account.class), any(Runnable.class));
+            callRunnableAtIndex(1).when(mockAccounts).addAccount(any(Account.class), any(Runnable.class));
         }
 
         private void verifyAccountsAddWithAccount(Account account) {
@@ -95,7 +92,7 @@ public class EditableAccountTest {
         }
 
         private void given_edit_account_will_success() {
-            callRunnable().when(mockAccounts).editAccount(any(Account.class), any(Runnable.class));
+            callRunnableAtIndex(1).when(mockAccounts).editAccount(any(Account.class), any(Runnable.class));
         }
     }
 
@@ -127,7 +124,7 @@ public class EditableAccountTest {
         }
 
         private void given_account_delete_will_success() {
-            callRunnable().when(mockAccounts).deleteAccount(any(Account.class), any(Runnable.class));
+            callRunnableAtIndex(1).when(mockAccounts).deleteAccount(any(Account.class), any(Runnable.class));
         }
 
     }
@@ -161,17 +158,6 @@ public class EditableAccountTest {
 
     private void given_account_id_is(int id) {
         editableAccount.setId(id);
-    }
-
-    private Stubber callRunnable() {
-        return doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Runnable afterSuccess = invocation.getArgument(1);
-                afterSuccess.run();
-                return null;
-            }
-        });
     }
 
     private Account account(String name, int balanceBroughtForward) {

@@ -3,6 +3,7 @@ package com.odde.bbuddy.authentication;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
 import com.odde.bbuddy.common.JsonBackendMock;
+import com.odde.bbuddy.common.JsonMapper;
 
 import org.json.JSONException;
 import org.junit.Test;
@@ -13,7 +14,8 @@ import static org.mockito.Mockito.verify;
 public class AuthenticatorTest {
 
     JsonBackend mockBackend = mock(JsonBackend.class);
-    Authenticator authenticator = new Authenticator(mockBackend);
+    JsonMapper<Credentials> jsonMapper = new JsonMapper<>(Credentials.class);
+    Authenticator authenticator = new Authenticator(mockBackend, jsonMapper);
     Credentials credentials = credentials("abc@gmail.com", "password");
     Consumer afterSuccess = mock(Consumer.class);
     JsonBackendMock<Credentials> jsonBackendMock = new JsonBackendMock<>(mockBackend, Credentials.class);

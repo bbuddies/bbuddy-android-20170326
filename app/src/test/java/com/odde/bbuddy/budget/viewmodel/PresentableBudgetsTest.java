@@ -1,7 +1,6 @@
 package com.odde.bbuddy.budget.viewmodel;
 
 import com.odde.bbuddy.budget.model.Budgets;
-import com.odde.bbuddy.common.CallbackInvoker;
 import com.odde.bbuddy.common.Consumer;
 
 import org.junit.Before;
@@ -12,6 +11,7 @@ import java.util.List;
 
 import dagger.Lazy;
 
+import static com.odde.bbuddy.common.CallbackInvoker.callConsumerArgumentAtIndexWith;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -52,7 +52,7 @@ public class PresentableBudgetsTest {
     }
 
     private void given_budgets_will_return(final List<Budget> allBudgets) {
-        CallbackInvoker.callConsumerArgumentAtIndexWith(0, allBudgets).when(stubBudgets).processAllBudgets(any(Consumer.class));
+        callConsumerArgumentAtIndexWith(0, allBudgets).when(stubBudgets).processAllBudgets(any(Consumer.class));
     }
 
 }

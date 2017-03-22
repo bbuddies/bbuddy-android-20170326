@@ -65,6 +65,9 @@ dependencies {
     testCompile 'org.skyscreamer:jsonassert:1.4.0'
     testCompile 'org.assertj:assertj-core:3.6.2'
 
+    provided "org.projectlombok:lombok:1.16.14"
+
     apt "org.robobinding:codegen:0.8.14"
     apt "com.google.dagger:dagger-compiler:2.9"
+    apt "org.projectlombok:lombok:1.16.14"
 }

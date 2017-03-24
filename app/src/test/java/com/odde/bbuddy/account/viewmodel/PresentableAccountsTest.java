@@ -8,8 +8,6 @@ import com.odde.bbuddy.common.Consumer;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 import org.robobinding.widget.adapterview.ItemClickEvent;
 
@@ -17,10 +15,10 @@ import java.util.List;
 
 import dagger.Lazy;
 
+import static com.odde.bbuddy.common.CallbackInvoker.callConsumerArgumentAtIndexWith;
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,7 +41,7 @@ public class PresentableAccountsTest {
     public void get_all_accounts() {
         given_accounts_will_return(asList(account));
 
-        assertEquals(asList(account), createPresentableAccounts().getAccounts());
+        assertThat(createPresentableAccounts().getAccounts()).isEqualTo(asList(account));
     }
 
     @Test
@@ -53,6 +51,7 @@ public class PresentableAccountsTest {
         presentableAccounts.refresh();
 
         verify(mockPresentationModelChangeSupport).refreshPresentationModel();
+        assertThat(presentableAccounts.getAccounts()).isEqualTo(asList(account));
     }
     
     @Test
@@ -72,14 +71,7 @@ public class PresentableAccountsTest {
     }
 
     private void given_accounts_will_return(final List<Account> allAccounts) {
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Consumer consumer = invocation.getArgument(0);
-                consumer.accept(allAccounts);
-                return null;
-            }
-        }).when(mockAccounts).processAllAccounts(any(Consumer.class));
+        callConsumerArgumentAtIndexWith(0, allAccounts).when(mockAccounts).processAllAccounts(any(Consumer.class));
     }
 
     private PresentableAccounts createPresentableAccounts() {

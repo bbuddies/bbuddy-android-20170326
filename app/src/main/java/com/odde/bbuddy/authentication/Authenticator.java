@@ -1,23 +1,23 @@
 package com.odde.bbuddy.authentication;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
+import com.odde.bbuddy.common.JsonMapper;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Authenticator {
 
     private final JsonBackend backend;
+    private final JsonMapper<Credentials> jsonMapper;
 
-    public Authenticator(JsonBackend backend) {
+    public Authenticator(JsonBackend backend, JsonMapper<Credentials> jsonMapper) {
         this.backend = backend;
+        this.jsonMapper = jsonMapper;
     }
 
     public void authenticate(Credentials credentials, final Consumer afterSuccess) {
-        backend.postRequestForJson("/auth/sign_in", jsonOf(credentials), new Consumer<JSONObject>() {
+        backend.postRequestForJson("/auth/sign_in", jsonMapper.jsonOf(credentials), new Consumer<JSONObject>() {
             @Override
             public void accept(JSONObject jsonObject) {
                 afterSuccess.accept("success");
@@ -28,14 +28,6 @@ public class Authenticator {
                 afterSuccess.accept("failed");
             }
         });
-    }
-
-    private JSONObject jsonOf(Credentials credentials) {
-        try {
-            return new JSONObject(new ObjectMapper().writeValueAsString(credentials));
-        } catch (JsonProcessingException | JSONException e) {
-            throw new IllegalStateException(e);
-        }
     }
 
 }

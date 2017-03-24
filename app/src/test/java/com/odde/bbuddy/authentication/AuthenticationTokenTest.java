@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class AuthenticationTokenTest {
 
@@ -23,7 +23,7 @@ public class AuthenticationTokenTest {
     public void update_token_and_get_headers() {
         token.updateByHeaders(headers);
 
-        assertEquals(headers, token.getHeaders());
+        assertThat(token.getHeaders()).isEqualTo(headers);
     }
 
     @Test
@@ -32,7 +32,7 @@ public class AuthenticationTokenTest {
 
         token.updateByHeaders(headersWithoutAuthenticationToken);
 
-        assertEquals(headers, token.getHeaders());
+        assertThat(token.getHeaders()).isEqualTo(headers);
     }
 
     private void given_token_already_updated_with_headers() {

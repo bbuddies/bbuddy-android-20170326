@@ -25,10 +25,11 @@ public class JsonBackend {
 
     private final RequestQueue requestQueue;
     private final String serverUrl = BuildConfig.SERVER_URL;
-    private final AuthenticationToken authenticationToken = new AuthenticationToken();
+    private final AuthenticationToken authenticationToken;
 
-    public JsonBackend(Context context) {
+    public JsonBackend(Context context, AuthenticationToken authenticationToken) {
         requestQueue = newRequestQueue(context);
+        this.authenticationToken = authenticationToken;
     }
 
     public void postRequestForJson(String action, JSONObject request, final Consumer<JSONObject> responseConsumer, final Runnable afterError) {

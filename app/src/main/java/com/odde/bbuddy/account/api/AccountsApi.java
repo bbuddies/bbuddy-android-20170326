@@ -1,4 +1,4 @@
-package com.odde.bbuddy.account.model;
+package com.odde.bbuddy.account.api;
 
 import com.odde.bbuddy.account.viewmodel.Account;
 import com.odde.bbuddy.common.Consumer;
@@ -10,14 +10,19 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class Accounts {
+import retrofit2.Call;
+import retrofit2.Callback;
+
+public class AccountsApi {
 
     private final JsonBackend jsonBackend;
     private final JsonMapper<Account> jsonMapper;
+    private final RawAccountsApi rawAccountsApi;
 
-    public Accounts(JsonBackend jsonBackend, JsonMapper<Account> jsonMapper) {
+    public AccountsApi(JsonBackend jsonBackend, JsonMapper<Account> jsonMapper, RawAccountsApi rawAccountsApi) {
         this.jsonBackend = jsonBackend;
         this.jsonMapper = jsonMapper;
+        this.rawAccountsApi = rawAccountsApi;
     }
 
     public void processAllAccounts(final Consumer<List<Account>> consumer) {
@@ -30,17 +35,18 @@ public class Accounts {
     }
 
     public void addAccount(Account account, final Runnable afterSuccess) {
-        jsonBackend.postRequestForJson("/accounts", jsonMapper.jsonOf(account), new Consumer<JSONObject>() {
+        rawAccountsApi.addAccount(account)
+                .enqueue(new Callback<Account>() {
             @Override
-            public void accept(JSONObject jsonObject) {
+            public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {
                 afterSuccess.run();
             }
-        }, new Runnable() {
             @Override
-            public void run() {
+            public void onFailure(Call<Account> call, Throwable t) {
 
             }
         });
+
     }
 
     public void editAccount(Account account, final Runnable afterSuccess) {

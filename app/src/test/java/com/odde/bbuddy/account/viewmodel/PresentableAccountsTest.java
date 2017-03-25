@@ -2,7 +2,7 @@ package com.odde.bbuddy.account.viewmodel;
 
 import android.support.annotation.NonNull;
 
-import com.odde.bbuddy.account.model.Accounts;
+import com.odde.bbuddy.account.api.AccountsApi;
 import com.odde.bbuddy.account.view.EditDeleteAccountNavigation;
 import com.odde.bbuddy.common.Consumer;
 
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 public class PresentableAccountsTest {
 
-    Accounts mockAccounts = mock(Accounts.class);
+    AccountsApi mockAccountsApi = mock(AccountsApi.class);
     EditDeleteAccountNavigation mockEditDeleteAccountNavigation = mock(EditDeleteAccountNavigation.class);
     Lazy<PresentationModelChangeSupport> mockChangeSupportLazyLoader = mock(Lazy.class);
     PresentationModelChangeSupport mockPresentationModelChangeSupport = mock(PresentationModelChangeSupport.class);
@@ -71,11 +71,11 @@ public class PresentableAccountsTest {
     }
 
     private void given_accounts_will_return(final List<Account> allAccounts) {
-        callConsumerArgumentAtIndexWith(0, allAccounts).when(mockAccounts).processAllAccounts(any(Consumer.class));
+        callConsumerArgumentAtIndexWith(0, allAccounts).when(mockAccountsApi).processAllAccounts(any(Consumer.class));
     }
 
     private PresentableAccounts createPresentableAccounts() {
-        return new PresentableAccounts(mockAccounts, mockEditDeleteAccountNavigation, mockChangeSupportLazyLoader);
+        return new PresentableAccounts(mockAccountsApi, mockEditDeleteAccountNavigation, mockChangeSupportLazyLoader);
     }
 
 }

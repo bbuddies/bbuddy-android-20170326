@@ -3,32 +3,39 @@ package com.odde.bbuddy.account.model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nitorcreations.junit.runners.NestedRunner;
 import com.odde.bbuddy.account.viewmodel.Account;
-import com.odde.bbuddy.authentication.AuthenticationToken;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.JsonBackend;
 import com.odde.bbuddy.common.JsonBackendMock;
 import com.odde.bbuddy.common.JsonMapper;
 
 import org.json.JSONException;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(NestedRunner.class)
 public class AccountsTest {
 
     JsonBackend mockJsonBackend = mock(JsonBackend.class);
     JsonMapper<Account> jsonMapper = new JsonMapper<>(Account.class);
-    AuthenticationToken authenticationToken = new AuthenticationToken();
-    Accounts accounts = new Accounts(mockJsonBackend, jsonMapper, authenticationToken);
+    AccountsApi mockAccountsApi = mock(AccountsApi.class);
+    Accounts accounts = new Accounts(mockJsonBackend, jsonMapper, mockAccountsApi);
     JsonBackendMock<Account> jsonBackendMock = new JsonBackendMock<>(mockJsonBackend, Account.class);
     Runnable mockRunnable = mock(Runnable.class);
     private static final int ID = 1;
@@ -36,17 +43,29 @@ public class AccountsTest {
 
     public class AddAccount {
 
-        @Ignore @Test
+        @Before
+        public void givenAddAccountWillSuccess() {
+            Call stubCallback = mock(Call.class);
+            when(mockAccountsApi.addAccount(any(Account.class))).thenReturn(stubCallback);
+            doAnswer(new Answer() {
+                @Override
+                public Object answer(InvocationOnMock invocation) throws Throwable {
+                    Callback callback = invocation.getArgument(0);
+                    callback.onResponse(null, null);
+                    return null;
+                }
+            }).when(stubCallback).enqueue(any(Callback.class));
+        }
+
+        @Test
         public void add_account_with_name_and_balance_brought_forward() throws JSONException {
             accounts.addAccount(account("name", 1000), mockRunnable);
 
-            jsonBackendMock.verifyPostWith("/accounts", account("name", 1000));
+            mockAccountsApi.addAccount(account("name", 1000));
         }
 
-        @Ignore @Test
+        @Test
         public void add_account_successfully() {
-            jsonBackendMock.givenPostWillSuccess();
-
             accounts.addAccount(account, mockRunnable);
 
             verify(mockRunnable).run();

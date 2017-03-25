@@ -31,18 +31,22 @@ import android.widget.TextView;
 import com.odde.bbuddy.authentication.Authenticator;
 import com.odde.bbuddy.authentication.Credentials;
 import com.odde.bbuddy.common.Consumer;
-import com.odde.bbuddy.common.JsonBackend;
-import com.odde.bbuddy.common.JsonMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import static android.Manifest.permission.READ_CONTACTS;
+import static com.odde.bbuddy.di.component.ActivityComponentFactory.createActivityComponentBy;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+
+    @Inject
+    Authenticator authenticator;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -70,6 +74,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        createActivityComponentBy(this).inject(this);
+
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.Username);
@@ -190,7 +197,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            new Authenticator(new JsonBackend(getApplicationContext()), new JsonMapper<Credentials>(Credentials.class)).authenticate(new Credentials(email, password), new Consumer<String>() {
+            authenticator.authenticate(new Credentials(email, password), new Consumer<String>() {
                 @Override
                 public void accept(String message) {
                     if (message.equals("failed")) {

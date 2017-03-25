@@ -4,6 +4,9 @@ import android.app.Application;
 
 import com.odde.bbuddy.account.model.Accounts;
 import com.odde.bbuddy.account.viewmodel.Account;
+import com.odde.bbuddy.authentication.AuthenticationToken;
+import com.odde.bbuddy.authentication.Authenticator;
+import com.odde.bbuddy.authentication.Credentials;
 import com.odde.bbuddy.budget.model.Budgets;
 import com.odde.bbuddy.budget.viewmodel.Budget;
 import com.odde.bbuddy.common.JsonBackend;
@@ -24,13 +27,23 @@ public class ApplicationModule {
     }
 
     @Provides @Singleton
-    public JsonBackend provideJsonBackend() {
-        return new JsonBackend(application);
+    public JsonBackend provideJsonBackend(AuthenticationToken authenticationToken) {
+        return new JsonBackend(application, authenticationToken);
     }
 
     @Provides @Singleton
-    public Accounts provideAccounts(JsonBackend jsonBackend) {
-        return new Accounts(jsonBackend, new JsonMapper<>(Account.class));
+    public AuthenticationToken provideAuthenticationToken() {
+        return new AuthenticationToken();
+    }
+
+    @Provides @Singleton
+    public Authenticator provideAuthenticator(JsonBackend jsonBackend) {
+        return new Authenticator(jsonBackend, new JsonMapper<>(Credentials.class));
+    }
+
+    @Provides @Singleton
+    public Accounts provideAccounts(JsonBackend jsonBackend, AuthenticationToken authenticationToken) {
+        return new Accounts(jsonBackend, new JsonMapper<>(Account.class), authenticationToken);
     }
 
     @Provides @Singleton

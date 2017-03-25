@@ -1,6 +1,6 @@
 package com.odde.bbuddy.account.viewmodel;
 
-import com.odde.bbuddy.account.model.Accounts;
+import com.odde.bbuddy.account.api.AccountsApi;
 import com.odde.bbuddy.account.view.EditDeleteAccountNavigation;
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.di.scope.ActivityScope;
@@ -24,13 +24,13 @@ import dagger.Lazy;
 public class PresentableAccounts implements HasPresentationModelChangeSupport {
 
     private final Lazy<PresentationModelChangeSupport> changeSupportLazyLoader;
-    private final Accounts accounts;
+    private final AccountsApi accountsApi;
     private final EditDeleteAccountNavigation editDeleteAccountNavigation;
     private final List<Account> allAccounts = new ArrayList<>();
 
     @Inject
-    public PresentableAccounts(Accounts accounts, EditDeleteAccountNavigation editDeleteAccountNavigation, @Named("accounts") Lazy<PresentationModelChangeSupport> changeSupportLazyLoader) {
-        this.accounts = accounts;
+    public PresentableAccounts(AccountsApi accountsApi, EditDeleteAccountNavigation editDeleteAccountNavigation, @Named("accounts") Lazy<PresentationModelChangeSupport> changeSupportLazyLoader) {
+        this.accountsApi = accountsApi;
         this.editDeleteAccountNavigation = editDeleteAccountNavigation;
         this.changeSupportLazyLoader = changeSupportLazyLoader;
         refresh();
@@ -59,7 +59,7 @@ public class PresentableAccounts implements HasPresentationModelChangeSupport {
     }
 
     public void refresh() {
-        accounts.processAllAccounts(new Consumer<List<Account>>() {
+        accountsApi.processAllAccounts(new Consumer<List<Account>>() {
             @Override
             public void accept(List<Account> list) {
                 allAccounts.clear();

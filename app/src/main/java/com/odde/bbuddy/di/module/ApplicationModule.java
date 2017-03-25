@@ -2,8 +2,8 @@ package com.odde.bbuddy.di.module;
 
 import android.app.Application;
 
-import com.odde.bbuddy.account.model.Accounts;
-import com.odde.bbuddy.account.model.AccountsApi;
+import com.odde.bbuddy.account.api.AccountsApi;
+import com.odde.bbuddy.account.api.RawAccountsApi;
 import com.odde.bbuddy.account.viewmodel.Account;
 import com.odde.bbuddy.authentication.AuthenticationToken;
 import com.odde.bbuddy.authentication.Authenticator;
@@ -49,8 +49,8 @@ public class ApplicationModule {
     }
 
     @Provides @Singleton
-    public Accounts provideAccounts(JsonBackend jsonBackend, ApiFactory apiFactory) {
-        return new Accounts(jsonBackend, new JsonMapper<>(Account.class), apiFactory.create(AccountsApi.class));
+    public AccountsApi provideAccounts(JsonBackend jsonBackend, ApiFactory apiFactory) {
+        return new AccountsApi(jsonBackend, new JsonMapper<>(Account.class), apiFactory.create(RawAccountsApi.class));
     }
 
     @Provides @Singleton

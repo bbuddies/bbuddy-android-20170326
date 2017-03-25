@@ -1,6 +1,6 @@
 package com.odde.bbuddy.account.viewmodel;
 
-import com.odde.bbuddy.account.model.Accounts;
+import com.odde.bbuddy.account.api.AccountsApi;
 import com.odde.bbuddy.account.view.ShowAllAccountsNavigation;
 import com.odde.bbuddy.di.scope.ActivityScope;
 
@@ -12,7 +12,7 @@ import javax.inject.Inject;
 @ActivityScope
 public class EditableAccount {
 
-    private final Accounts accounts;
+    private final AccountsApi accountsApi;
     private final ShowAllAccountsNavigation showAllAccountsNavigation;
 
     private String name;
@@ -20,8 +20,8 @@ public class EditableAccount {
     private int id;
 
     @Inject
-    public EditableAccount(Accounts accounts, ShowAllAccountsNavigation showAllAccountsNavigation) {
-        this.accounts = accounts;
+    public EditableAccount(AccountsApi accountsApi, ShowAllAccountsNavigation showAllAccountsNavigation) {
+        this.accountsApi = accountsApi;
         this.showAllAccountsNavigation = showAllAccountsNavigation;
     }
 
@@ -49,7 +49,7 @@ public class EditableAccount {
         Account account = new Account();
         account.setName(name);
         account.setBalanceBroughtForward(balanceBroughtForward);
-        accounts.addAccount(account, new Runnable() {
+        accountsApi.addAccount(account, new Runnable() {
             @Override
             public void run() {
                 showAllAccountsNavigation.navigate();
@@ -74,7 +74,7 @@ public class EditableAccount {
         account.setId(id);
         account.setName(name);
         account.setBalanceBroughtForward(balanceBroughtForward);
-        accounts.editAccount(account, new Runnable() {
+        accountsApi.editAccount(account, new Runnable() {
             @Override
             public void run() {
                 showAllAccountsNavigation.navigate();
@@ -85,7 +85,7 @@ public class EditableAccount {
     public void delete() {
         Account account = new Account();
         account.setId(id);
-        accounts.deleteAccount(account, new Runnable() {
+        accountsApi.deleteAccount(account, new Runnable() {
             @Override
             public void run() {
                 showAllAccountsNavigation.navigate();

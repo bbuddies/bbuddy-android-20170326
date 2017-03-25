@@ -1,7 +1,7 @@
 package com.odde.bbuddy.account.viewmodel;
 
 import com.nitorcreations.junit.runners.NestedRunner;
-import com.odde.bbuddy.account.model.Accounts;
+import com.odde.bbuddy.account.api.AccountsApi;
 import com.odde.bbuddy.account.view.ShowAllAccountsNavigation;
 
 import org.junit.Test;
@@ -19,9 +19,9 @@ import static org.mockito.Mockito.verify;
 @RunWith(NestedRunner.class)
 public class EditableAccountTest {
 
-    Accounts mockAccounts = mock(Accounts.class);
+    AccountsApi mockAccountsApi = mock(AccountsApi.class);
     ShowAllAccountsNavigation mockShowAllAccountsNavigation = mock(ShowAllAccountsNavigation.class);
-    EditableAccount editableAccount = new EditableAccount(mockAccounts, mockShowAllAccountsNavigation);
+    EditableAccount editableAccount = new EditableAccount(mockAccountsApi, mockShowAllAccountsNavigation);
 
     public class Add {
 
@@ -42,12 +42,12 @@ public class EditableAccountTest {
         }
 
         private void given_add_account_will_success() {
-            callRunnableAtIndex(1).when(mockAccounts).addAccount(any(Account.class), any(Runnable.class));
+            callRunnableAtIndex(1).when(mockAccountsApi).addAccount(any(Account.class), any(Runnable.class));
         }
 
         private void verifyAccountsAddWithAccount(Account account) {
             ArgumentCaptor<Account> captor = forClass(Account.class);
-            verify(mockAccounts).addAccount(captor.capture(), any(Runnable.class));
+            verify(mockAccountsApi).addAccount(captor.capture(), any(Runnable.class));
             assertThat(captor.getValue()).isEqualToComparingFieldByField(account);
         }
 
@@ -87,12 +87,12 @@ public class EditableAccountTest {
 
         private void verifyAccountsEditWithAccount(Account account) {
             ArgumentCaptor<Account> captor = forClass(Account.class);
-            verify(mockAccounts).editAccount(captor.capture(), any(Runnable.class));
+            verify(mockAccountsApi).editAccount(captor.capture(), any(Runnable.class));
             assertThat(captor.getValue()).isEqualToComparingFieldByField(account);
         }
 
         private void given_edit_account_will_success() {
-            callRunnableAtIndex(1).when(mockAccounts).editAccount(any(Account.class), any(Runnable.class));
+            callRunnableAtIndex(1).when(mockAccountsApi).editAccount(any(Account.class), any(Runnable.class));
         }
     }
 
@@ -119,12 +119,12 @@ public class EditableAccountTest {
 
         private void verifyAccountsDeleteWithAccount(Account account) {
             ArgumentCaptor<Account> captor = forClass(Account.class);
-            verify(mockAccounts).deleteAccount(captor.capture(), any(Runnable.class));
+            verify(mockAccountsApi).deleteAccount(captor.capture(), any(Runnable.class));
             assertThat(captor.getValue()).isEqualToComparingFieldByField(account);
         }
 
         private void given_account_delete_will_success() {
-            callRunnableAtIndex(1).when(mockAccounts).deleteAccount(any(Account.class), any(Runnable.class));
+            callRunnableAtIndex(1).when(mockAccountsApi).deleteAccount(any(Account.class), any(Runnable.class));
         }
 
     }

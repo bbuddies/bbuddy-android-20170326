@@ -1,4 +1,4 @@
-package com.odde.bbuddy.account.model;
+package com.odde.bbuddy.account.api;
 
 import com.odde.bbuddy.account.viewmodel.Account;
 import com.odde.bbuddy.common.Consumer;
@@ -13,16 +13,16 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class Accounts {
+public class AccountsApi {
 
     private final JsonBackend jsonBackend;
     private final JsonMapper<Account> jsonMapper;
-    private final AccountsApi accountsApi;
+    private final RawAccountsApi rawAccountsApi;
 
-    public Accounts(JsonBackend jsonBackend, JsonMapper<Account> jsonMapper, AccountsApi accountsApi) {
+    public AccountsApi(JsonBackend jsonBackend, JsonMapper<Account> jsonMapper, RawAccountsApi rawAccountsApi) {
         this.jsonBackend = jsonBackend;
         this.jsonMapper = jsonMapper;
-        this.accountsApi = accountsApi;
+        this.rawAccountsApi = rawAccountsApi;
     }
 
     public void processAllAccounts(final Consumer<List<Account>> consumer) {
@@ -35,7 +35,7 @@ public class Accounts {
     }
 
     public void addAccount(Account account, final Runnable afterSuccess) {
-        accountsApi.addAccount(account)
+        rawAccountsApi.addAccount(account)
                 .enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, retrofit2.Response<Account> response) {

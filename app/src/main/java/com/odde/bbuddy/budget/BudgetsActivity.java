@@ -34,4 +34,10 @@ public class BudgetsActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return viewBinder.inflateAndBindWithoutAttachingToRoot(R.layout.activity_budgets, presentableBudgets, container);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presentableBudgets.refresh();
+    }
 }

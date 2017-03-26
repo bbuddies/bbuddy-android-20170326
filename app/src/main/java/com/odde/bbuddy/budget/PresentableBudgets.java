@@ -41,4 +41,14 @@ public class PresentableBudgets implements HasPresentationModelChangeSupport {
     public PresentationModelChangeSupport getPresentationModelChangeSupport() {
         return presentationModelChangeSupport;
     }
+
+    public void refresh() {
+        budgetsApi.getAllBudgets(new Consumer<List<Budget>>() {
+            @Override
+            public void accept(List<Budget> budgets) {
+                allBudgets = budgets;
+                presentationModelChangeSupport.refreshPresentationModel();
+            }
+        });
+    }
 }

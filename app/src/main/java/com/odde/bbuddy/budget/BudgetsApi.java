@@ -1,5 +1,7 @@
 package com.odde.bbuddy.budget;
 
+import com.odde.bbuddy.common.Consumer;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -7,8 +9,6 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static java.util.Arrays.asList;
 
 public class BudgetsApi {
 
@@ -33,10 +33,17 @@ public class BudgetsApi {
         });
     }
 
-    public List<Budget> getAllBudgets() {
-        Budget budget = new Budget();
-        budget.setMonth("2017-03");
-        budget.setAmount(1000);
-        return asList(budget);
+    public void getAllBudgets(final Consumer<List<Budget>> consumer) {
+        rawBudgetsApi.getAllBudgets().enqueue(new Callback<List<Budget>>() {
+            @Override
+            public void onResponse(Call<List<Budget>> call, Response<List<Budget>> response) {
+                consumer.accept(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Budget>> call, Throwable t) {
+
+            }
+        });
     }
 }

@@ -9,22 +9,19 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static java.util.Arrays.asList;
-
 @PresentationModel
 @ActivityScope
 public class PresentableBudgets {
 
-    @Inject
-    public PresentableBudgets() {
+    private final BudgetsApi budgetsApi;
 
+    @Inject
+    public PresentableBudgets(BudgetsApi budgetsApi) {
+        this.budgetsApi = budgetsApi;
     }
 
     @ItemPresentationModel(PresentableBudget.class)
     public List<Budget> getBudgets() {
-        Budget budget = new Budget();
-        budget.setMonth("2017-03");
-        budget.setAmount(1000);
-        return asList(budget);
+        return budgetsApi.getAllBudgets();
     }
 }

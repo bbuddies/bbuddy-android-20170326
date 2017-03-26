@@ -22,7 +22,7 @@
             android:hint="Month"
             android:inputType="textCapWords"
             android:id="@+id/month"
-            />
+            bind:text = "${month}"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -36,7 +36,7 @@
             android:hint="Amount"
             android:inputType="number"
             android:id="@+id/amount"
-            />
+            bind:text = "${amount}"/>
     </android.support.design.widget.TextInputLayout>
 
     <Button

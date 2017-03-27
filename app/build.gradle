@@ -32,10 +32,10 @@ android {
         }
         development {
             initWith(buildTypes.debug)
-            buildConfigField "String", "SERVER_URL", '"http://10.0.3.2:3000"'
+            buildConfigField "String", "SERVER_URL", '"http://192.168.2.204:3000"'
         }
         debug {
-            buildConfigField "String", "SERVER_URL", '"http://10.0.3.2:4000"'
+            buildConfigField "String", "SERVER_URL", '"http://192.168.2.204:4000"'
         }
     }
     packagingOptions {

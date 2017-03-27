@@ -6,72 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20px"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start:" />
-
-
-        <EditText
-            android:id="@+id/startTimeDatePicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
-        <!--<DatePicker-->
-            <!--android:id="@+id/startTimeDatePicker"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_horizontal" />-->
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="End:" />
-
-
-        <EditText
-            android:id="@+id/endTimeDatePicker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/searchTotalBudgetsBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search" />
-    </LinearLayout>
-
-
-    <ListView xmlns:bind="http://robobinding.org/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        bind:itemLayout="@android:layout/simple_list_item_1"
-        bind:itemMapping="[text1.text:{displayOfBudget}]"
-        bind:source="{budgets}">
-
-    </ListView>
+        android:id="@+id/totalBudgetsText"/>
 
 </LinearLayout>

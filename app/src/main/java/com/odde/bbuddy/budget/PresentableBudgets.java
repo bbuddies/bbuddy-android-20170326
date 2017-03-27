@@ -1,5 +1,7 @@
 package com.odde.bbuddy.budget;
 
+import android.util.Log;
+
 import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.di.scope.ActivityScope;
 
@@ -8,6 +10,7 @@ import org.robobinding.annotation.PresentationModel;
 import org.robobinding.presentationmodel.HasPresentationModelChangeSupport;
 import org.robobinding.presentationmodel.PresentationModelChangeSupport;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -50,5 +53,9 @@ public class PresentableBudgets implements HasPresentationModelChangeSupport {
                 presentationModelChangeSupport.refreshPresentationModel();
             }
         });
+    }
+
+    public void searchTotalBudgets(Date startDate, Date endDate, Consumer<List<Budget>> consumer) {
+        budgetsApi.getAllBudgets(consumer);
     }
 }

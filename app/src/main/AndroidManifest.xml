@@ -28,6 +28,7 @@
         <activity android:name=".account.view.AddAccountActivity" />
         <activity android:name=".budget.AddBudgetActivity" />
         <activity android:name=".account.view.EditDeleteAccountActivity"></activity>
+        <activity android:name=".budget.TotalBudgetsActivity"></activity>
     </application>
 
 </manifest>

@@ -19,11 +19,25 @@ public class BudgetsApi {
         this.rawBudgetsApi = rawBudgetsApi;
     }
 
-    public void addBudget(Budget budget) {
+    public void addBudget(Budget budget, final Runnable runnable) {
         rawBudgetsApi.addBudget(budget).enqueue(new Callback<Budget>() {
             @Override
             public void onResponse(Call<Budget> call, Response<Budget> response) {
+                runnable.run();
+            }
 
+            @Override
+            public void onFailure(Call<Budget> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void updateBudget(Budget budget, final Runnable refreshRunnable) {
+        rawBudgetsApi.updateBudget(budget.getId(), budget).enqueue(new Callback<Budget>() {
+            @Override
+            public void onResponse(Call<Budget> call, Response<Budget> response) {
+                refreshRunnable.run();
             }
 
             @Override

@@ -57,11 +57,22 @@ public class EditableBudgetCopy {
             @Override
             public void accept(List<Budget> budgets) {
                 float sum = 0;
+                int monthSpace = getMonthSpace(startDate,endDate) -1;
+                int index = 0;
+                boolean startCount = false;
                 for (Budget budget : budgets) {
+                    if(startCount){
+                        index++;
+                        if (index < monthSpace) {
+                            sum += Float.valueOf(budget.getAmount());
+                        }else{
+                            sum += Float.valueOf(budget.getAmount()) * getMonthPersent(endDate);
+                        }
+                    }
                     if (monthFormat.format(startDate).equals(budget.getMonth())){
                         sum += Float.valueOf(budget.getAmount()) * getMonthPersent(startDate);
+                        startCount = true;
                     }
-                    return;
                 }
             }
         });

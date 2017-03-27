@@ -38,4 +38,6 @@ public class HeaderInterceptor implements Interceptor {
         authenticationToken.updateByHeaders(authenticationHeaders);
         return response;
     }
+
+
 }

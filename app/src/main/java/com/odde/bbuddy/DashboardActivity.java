@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.odde.bbuddy.account.view.AddAccountActivity;
 import com.odde.bbuddy.budget.AddBudgetActivity;
+import com.odde.bbuddy.budget.SumBudgetActivity;
 
 public class DashboardActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
@@ -34,6 +35,8 @@ public class DashboardActivity extends AppCompatActivity implements TabLayout.On
         tabLayout.addTab(tabLayout.newTab().setText("Dashboard"));
         tabLayout.addTab(tabLayout.newTab().setText("Accounts"));
         tabLayout.addTab(tabLayout.newTab().setText("Budgets"));
+        tabLayout.addTab(tabLayout.newTab().setText("SumBudgets"));
+
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         //Initializing viewPager
@@ -65,6 +68,7 @@ public class DashboardActivity extends AppCompatActivity implements TabLayout.On
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
+        add.setText("Add");
         switch (tab.getPosition()) {
             case 1:
                 add.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +86,15 @@ public class DashboardActivity extends AppCompatActivity implements TabLayout.On
                     }
                 });
                 break;
+            case 3:
+                add.setText("SumBudget");
+                add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(getApplicationContext(), SumBudgetActivity.class));
+                }
+            });
+            break;
         }
         viewPager.setCurrentItem(tab.getPosition());
     }

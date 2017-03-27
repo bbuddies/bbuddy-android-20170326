@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.odde.bbuddy.account.view.ShowAllAccountsActivity;
 import com.odde.bbuddy.budget.BudgetsActivity;
+import com.odde.bbuddy.budget.SumBudgetsActivity;
 
 
 public class DashboardPager extends FragmentStatePagerAdapter {
@@ -35,6 +36,8 @@ public class DashboardPager extends FragmentStatePagerAdapter {
                 return new ShowAllAccountsActivity();
             case 2:
                 return new BudgetsActivity();
+            case 3:
+                return new SumBudgetsActivity();
             default:
                 return null;
         }

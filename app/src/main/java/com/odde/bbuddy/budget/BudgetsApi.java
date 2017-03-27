@@ -51,7 +51,7 @@ public class BudgetsApi {
         rawBudgetsApi.getAllBudgets().enqueue(new Callback<List<Budget>>() {
             @Override
             public void onResponse(Call<List<Budget>> call, Response<List<Budget>> response) {
-                consumer.accept(response.body());
+              consumer.accept(response.body());
             }
 
             @Override

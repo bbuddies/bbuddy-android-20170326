@@ -3,6 +3,7 @@ package com.odde.bbuddy.budget;
 import android.util.Log;
 
 import com.odde.bbuddy.common.Consumer;
+import com.odde.bbuddy.common.Singleton;
 import com.odde.bbuddy.di.scope.ActivityScope;
 
 import org.robobinding.annotation.PresentationModel;
@@ -84,8 +85,8 @@ public class EditableSumBudget {
                                 sum += Float.valueOf(budget.getAmount());
                             }
                         }
-
-                        budgetsActivityNavigation.showSum(sum);
+                        Singleton.singleton.getSumBudgets().setSumAmount(String.valueOf(sum));
+                        budgetsActivityNavigation.navigate();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

@@ -12,6 +12,13 @@
         android:text="@string/app_name" />
 
     <TextView
+        android:id="@+id/query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/add"
+        android:textColor="@color/text_color"
+        android:text="@string/query" />
+    <TextView
         android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

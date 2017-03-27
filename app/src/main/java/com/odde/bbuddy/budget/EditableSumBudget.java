@@ -69,18 +69,20 @@ public class EditableSumBudget {
                         boolean startCount = false;
                         Log.d("Count", String.valueOf(budgets.size()));
                         for (Budget budget : budgets) {
-//                            if(startCount){
-//                                index++;
-//                                if (index < monthSpace) {
-//                                    sum += Float.valueOf(budget.getAmount());
-//                                }else{
-//                                    sum += Float.valueOf(budget.getAmount()) * getMonthPersent(endDate);
-//                                }
-//                            }
-//                            if (monthFormat.format(startDate).equals(budget.getMonth())){
-//                                sum += Float.valueOf(budget.getAmount()) * getMonthPersent(startDate);
-//                                startCount = true;
-//                            }
+                            if (monthFormat.format(startDate).equals(budget.getMonth())){
+                                sum += Float.valueOf(budget.getAmount()) * getMonthPersent(startDate);
+                            }
+                            if(monthFormat.format(endDate).equals(budget.getMonth())){
+                                if(monthFormat.format(endDate).equals(monthFormat.format(startDate))){
+                                    sum=Float.valueOf(budget.getAmount()) * getMonthPersent(startDate)-sum;
+                                }else {
+                                    sum+=Float.valueOf(budget.getAmount()) * getMonthPersent(startDate);
+                                }
+                            }
+                            if(budget.getMonth().compareTo(monthFormat.format(startDate))>0&&
+                                    budget.getMonth().compareTo(monthFormat.format(endDate))<0){
+                                sum += Float.valueOf(budget.getAmount());
+                            }
                         }
 
                         budgetsActivityNavigation.showSum(sum);

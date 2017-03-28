@@ -14,9 +14,7 @@ import com.odde.bbuddy.common.Consumer;
 
 import org.robobinding.ViewBinder;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -49,8 +47,8 @@ public class BudgetsActivity extends Fragment {
         View view = viewBinder.inflateAndBindWithoutAttachingToRoot(R.layout.activity_budgets, presentableBudgets, container);
 
         View searchTotalBudgetsBtn = view.findViewById(R.id.searchTotalBudgetsBtn);
-        final EditText startTimeEditText = (EditText) view.findViewById(R.id.startTimeDatePicker);
-        final EditText endTimeEditText = (EditText) view.findViewById(R.id.endTimeDatePicker);
+        final EditText startTimeEditText = (EditText) view.findViewById(R.id.start_date);
+        final EditText endTimeEditText = (EditText) view.findViewById(R.id.end_date);
         searchTotalBudgetsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -59,58 +59,55 @@ public class EditableSumBudget {
 
                 @Override
                 public void accept(List<Budget> budgets) {
-                    try {
-                        String startStr = start_date;
-                        String endStr = end_date;
-                        Date startDate = dateFormat.parse(startStr), endDate = dateFormat.parse(endStr);
-
+                        Date startDate = parseDateFromString(start_date), endDate = parseDateFromString(end_date);
+                        String startMonthStr = formatMonthStringFromDate(startDate), endMonthStr = formatMonthStringFromDate(endDate);
                         float sum = 0;
-                        int monthSpace = getMonthSpace(startDate,endDate) -1;
-                        int index = 0;
-                        boolean startCount = false;
-                        Log.d("Count", String.valueOf(budgets.size()));
                         for (Budget budget : budgets) {
-                            if (monthFormat.format(startDate).equals(budget.getMonth())){
-                                sum += Float.valueOf(budget.getAmount()) * getMonthPersent(startDate);
-                            }
-                            if(monthFormat.format(endDate).equals(budget.getMonth())){
-                                if(monthFormat.format(endDate).equals(monthFormat.format(startDate))){
-                                    sum=Float.valueOf(budget.getAmount()) * getMonthPersent(startDate)-sum;
-                                }else {
-                                    sum+=Float.valueOf(budget.getAmount()) * getMonthPersent(startDate);
-                                }
-                            }
-                            if(budget.getMonth().compareTo(monthFormat.format(startDate))>0&&
-                                    budget.getMonth().compareTo(monthFormat.format(endDate))<0){
-                                sum += Float.valueOf(budget.getAmount());
+                            String month = budget.getMonth();
+                            float amount = Float.valueOf(budget.getAmount());
+                            if (startMonthStr.equals(month)) {
+                                sum += (1 - getMonthPercent(startDate, true)) * amount;
+                            } else if (endMonthStr.equals(month)){
+                                sum += getMonthPercent(endDate, false) * amount;
+                            } else if (isAgtB(month, startMonthStr) && isAgtB(endMonthStr, month)){
+                                sum += amount;
                             }
                         }
                         Singleton.singleton.getSumBudgets().setSumAmount(String.valueOf(sum));
                         budgetsActivityNavigation.navigate();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
                 }
             });
     }
 
 
 
-    public float getMonthPersent(Date date)  {
+    private float getMonthPercent(Date date, boolean isStartDate)  {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        return (float)cal.get(Calendar.DATE) / (float)cal.getActualMaximum(Calendar.DATE);
+        int dayCount = cal.get(Calendar.DATE);
+        if(isStartDate){
+            dayCount--;
+        }
+        return (float)dayCount / (float)cal.getActualMaximum(Calendar.DATE);
     }
 
-    public int getMonthSpace(Date startDate, Date endDate){
-        Calendar startCal = Calendar.getInstance();
-        startCal.setTime(startDate);
-        Calendar endCal = Calendar.getInstance();
-        endCal.setTime(endDate);
-        int startYear = startCal.get(Calendar.YEAR), endYear = endCal.get(Calendar.YEAR);
-        int startMonth = startCal.get(Calendar.MONTH), endMonth = endCal.get(Calendar.MONTH);
-        return endYear-startYear >= 0 ? ((endYear -startYear)*12 + (endMonth-startMonth)):0;
+    private boolean isAgtB(String a, String b){
+        return a.compareTo(b) > 0 ;
     }
+
+    private Date parseDateFromString(String dateString){
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e){
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private String formatMonthStringFromDate(Date date){
+        return monthFormat.format(date);
+    }
+
+
 
 
     public Runnable refreshRunnable() {

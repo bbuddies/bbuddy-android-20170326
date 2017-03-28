@@ -42,10 +42,10 @@ public class CalTotalBudgetAmountTest {
 
     @Test
     public void calTotalBudget_In_Month() throws Exception {
-        addBudget("2017-03",3100);
+        addBudget("2017-12",3100);
         //addBudget("2017-04",3000);
 
-        double amount = calTotalBudget("2017-03-01","2017-03-15");
+        double amount = calTotalBudget("2017-12-01","2017-12-15");
         assertThat(amount).isEqualTo(1500);
 
     }

@@ -40,7 +40,7 @@ public class TimeFormatTest {
         budget2.setAmount(1000);
         budget2.setMonth("2017-04");
         budgets.add(budget2);
-        double amount = TimeFormat.getTotalBudget(budgets, "2017-03-02", "2017-05-05");
+        double amount = TimeFormat.getTotalBudget(budgets, "2017-03-01", "2017-03-15");
         System.out.print(amount);
     }
 

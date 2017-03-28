@@ -77,17 +77,22 @@ public class CalTotalBudgetAmount {
 
     private long getFirstDate(String month){
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR,Integer.parseInt(month.substring(0,4)));
-        calendar.set(Calendar.MONTH, Integer.parseInt(month.substring(5,7))-1);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        //calendar.set(Calendar.YEAR,Integer.parseInt(month.substring(0,4)));
+        //calendar.set(Calendar.MONTH, Integer.parseInt(month.substring(5,7))-1);
+        //calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Integer.parseInt(month.substring(0,4)),Integer.parseInt(month.substring(5,7))-1,1,0,0,0);
+        calendar.set(Calendar.MILLISECOND,0);
+
         return calendar.getTimeInMillis();
     }
 
     private long getLastDate(String month){
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR,Integer.parseInt(month.substring(0,4)));
-        calendar.set(Calendar.MONTH, Integer.parseInt(month.substring(5,7)));
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        //calendar.set(Calendar.YEAR,Integer.parseInt(month.substring(0,4)));
+        //calendar.set(Calendar.MONTH, Integer.parseInt(month.substring(5,7)));
+        //calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Integer.parseInt(month.substring(0,4)),Integer.parseInt(month.substring(5,7)),1,0,0,0);
+        calendar.set(Calendar.MILLISECOND,0);
         calendar.add(calendar.DATE,-1);
         return calendar.getTimeInMillis();
     }

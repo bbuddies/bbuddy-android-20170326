@@ -46,7 +46,7 @@ public class CalTotalBudgetAmount {
         double totalAmount = 0;
 
         if (firstDayOfMonth < start) {
-            if (end < start){
+            if (lastDayOfMonth < start){
                 return 0;
             } else if (lastDayOfMonth >= start && lastDayOfMonth <= end){
                 totalAmount = calOneMonthAmount(budeget,start,lastDayOfMonth);

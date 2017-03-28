@@ -25,39 +25,49 @@ public class CalTotalBudgetAmount {
 
     }
 
-    public  double getTotalBudget(List<Budget> budgets, Date startDate, Date endDate){
+    public double calOneMonthAmount(){
+        return 0;
+    }
+
+    public double getMonthAmount(Budget budeget,Date startDate, Date endDate){
+        String month = budeget.getMonth();
+        double amount = budeget.getAmount();
+        long start = startDate.getTime();
+        long end = endDate.getTime();
+        long first = getFirstDate(month);
+        long last = getLastDate(month);
+        int days = getTotalDays(month);
         double totalAmount = 0;
+        if (start > end){
+            //return 0;
+        } else if (first < start) {
+            if (end < start){
+                //return 0;
+            } else if (last >= start && last <= end){
+                totalAmount = (amount/days)*getDaysBy2Date(start,last);
+            } else  {
+                totalAmount = (amount/days)*getDaysBy2Date(start,end);
+            }
+        } else if (first >= start && first <= end) {
+            if (last <= end){
+                totalAmount = (amount/days)*getDaysBy2Date(first,last);
+            } else {
+                totalAmount = (amount/days)*getDaysBy2Date(first,end);
+            }
+        }
+        return totalAmount;
+    }
+
+    public  double getTotalBudget(List<Budget> budgets, Date startDate, Date endDate){
+
         if (budgets == null){
             return 0;
         }
+
+        double totalAmount = 0;
+
         for(Budget budeget : budgets) {
-            String month = budeget.getMonth();
-            double amount = budeget.getAmount();
-            long start = startDate.getTime();
-            long end = endDate.getTime();
-            long first = getFirstDate(month);
-            long last = getLastDate(month);
-            int days = getTotalDays(month);
-            if (start > last){
-                continue;
-            } else if ( end < first){
-                continue;
-            } else if (first <= start){
-
-                if(end < last){
-                    totalAmount += (amount/days)*getDaysBy2Date(start,end);
-                } else {
-                    totalAmount += (amount / days) * getDaysBy2Date(start, last);
-                }
-            } else if (last < end) {
-
-                totalAmount += (amount/days)*getDaysBy2Date(first,last);
-            } else if (first < end) {
-
-                totalAmount += (amount/days)*getDaysBy2Date(first,end);
-            } else {
-                totalAmount += (amount/days)*getDaysBy2Date(start,end);
-            }
+            totalAmount += getMonthAmount(budeget,startDate,endDate);
 
         }
         return totalAmount;

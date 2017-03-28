@@ -22,5 +22,6 @@
     <!-- account related strings -->
     <string name="account_name">Name</string>
     <string name="account_balance_brought_forward">Balance Brought Forward</string>
+    <string name="query">Query</string>
 
 </resources>

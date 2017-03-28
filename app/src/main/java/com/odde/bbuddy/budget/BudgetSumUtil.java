@@ -25,10 +25,12 @@ public final class BudgetSumUtil {
             String month = budget.getMonth();
             float amount = Float.valueOf(budget.getAmount());
             if (startMonthStr.equals(month)) {
-                sum += (1 - getMonthPercent(startDate, true)) * amount;
-            } else if (endMonthStr.equals(month)){
+                sum -= getMonthPercent(startDate, true) * amount;
+            }
+            if (endMonthStr.equals(month)){
                 sum += getMonthPercent(endDate, false) * amount;
-            } else if (isAgtB(month, startMonthStr) && isAgtB(endMonthStr, month)){
+            }
+            if (isAgetB(month, startMonthStr) && isAgtB(endMonthStr, month)){
                 sum += amount;
             }
         }
@@ -49,6 +51,10 @@ public final class BudgetSumUtil {
 
     private static boolean isAgtB(String a, String b){
         return a.compareTo(b) > 0 ;
+    }
+
+    private static boolean isAgetB(String a, String b){
+        return a.compareTo(b) >= 0 ;
     }
 
     private static Date parseDateFromString(String dateString){

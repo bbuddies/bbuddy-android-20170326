@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 public class EditableSumBudgetTest {
-    private static final double DELTA = Math.pow(10, -2);
+    private static final double DELTA = Math.pow(10, -6);
 
     @Test
     public void test_getSumBudgets() {
@@ -51,7 +51,7 @@ public class EditableSumBudgetTest {
         budgets.add(createBudget(3, "2017-02", 1000));
 
         float actResult = BudgetSumUtil.getBudgetsSum("2016-12-15", "2017-02-15", budgets);
-        Assert.assertEquals((17 / 31.0f + 15 / 28.0f)* 1000 + 1000, actResult, DELTA);
+        Assert.assertEquals((17 / 31.0f + 15 / 28.0f) * 1000 + 1000, actResult, DELTA);
     }
 
     @Test
@@ -61,7 +61,16 @@ public class EditableSumBudgetTest {
         budgets.add(createBudget(2, "2017-01", 1000));
 
         float actResult = BudgetSumUtil.getBudgetsSum("2016-12-15", "2017-01-11", budgets);
-        Assert.assertEquals((17 / 31.0f + 11 / 31.0f)* 1000, actResult, DELTA);
+        Assert.assertEquals((17 / 31.0f + 11 / 31.0f) * 1000, actResult, DELTA);
+    }
+
+    @Test
+    public void test_getSumBudgets_TwoMonths_oneEmpty() {
+        List<Budget> budgets = new ArrayList<>();
+        budgets.add(createBudget(1, "2016-12", 1000));
+
+        float actResult = BudgetSumUtil.getBudgetsSum("2016-12-15", "2017-01-11", budgets);
+        Assert.assertEquals((17 / 31.0f) * 1000, actResult, DELTA);
     }
 
     @NonNull

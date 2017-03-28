@@ -74,7 +74,12 @@ public class EditableBudgetTest {
 
     private void verifyAddBudgetWith(String month, int amount) {
         ArgumentCaptor<Budget> captor = ArgumentCaptor.forClass(Budget.class);
-        verify(mockBudgetsApi).addBudget(captor.capture());
+        verify(mockBudgetsApi).addBudget(captor.capture(), new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
         assertThat(captor.getValue().getMonth()).isEqualTo(month);
         assertThat(captor.getValue().getAmount()).isEqualTo(amount);
     }

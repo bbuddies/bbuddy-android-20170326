@@ -61,8 +61,6 @@ public class BudgetsActivity extends Fragment {
                             Intent intent = new Intent(BudgetsActivity.this.getContext(), TotalBudgetsActivity.class);
                             intent.putExtra("totalBudgets", String.valueOf((int)getTotalBudget(budgets, startDate, endDate)));
                             startActivity(intent);
-                            //allBudgets = budgets;
-                            //presentationModelChangeSupport.refreshPresentationModel();
                         }
                     });
                 } catch (Exception e) {

@@ -1,10 +1,7 @@
 package com.odde.bbuddy.budget;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import org.joda.time.LocalDate;
+
 import java.util.List;
 
 /**
@@ -12,61 +9,11 @@ import java.util.List;
  */
 
 public final class BudgetSumUtil {
-    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    private static DateFormat monthFormat = new SimpleDateFormat("yyyy-MM");
 
-    public static float getBudgetsSum(String start_date, String end_date, List<Budget> budgets) {
-        Date startDate = parseDateFromString(start_date), endDate = parseDateFromString(end_date);
-        String startMonthStr = formatMonthStringFromDate(startDate), endMonthStr = formatMonthStringFromDate(endDate);
-
-        float sum = 0;
-
-        for (Budget budget : budgets) {
-            String month = budget.getMonth();
-            float amount = Float.valueOf(budget.getAmount());
-            if (startMonthStr.equals(month)) {
-                sum -= getMonthPercent(startDate, true) * amount;
-            }
-            if (endMonthStr.equals(month)){
-                sum += getMonthPercent(endDate, false) * amount;
-            }
-            if (isAgetB(month, startMonthStr) && isAgtB(endMonthStr, month)){
-                sum += amount;
-            }
-        }
-
-        return sum;
+    public static float getBudgetsSum(String startDateString, String endDateString, List<Budget> budgets) {
+        LocalDate startDate = LocalDate.parse(startDateString);
+        LocalDate endDate = LocalDate.parse(endDateString);
+        Budgets plan = new Budgets(budgets);
+        return plan.query(startDate, endDate, null);
     }
-
-
-    private static float getMonthPercent(Date date, boolean isStartDate)  {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int dayCount = cal.get(Calendar.DATE);
-        if(isStartDate){
-            dayCount--;
-        }
-        return (float)dayCount / (float)cal.getActualMaximum(Calendar.DATE);
-    }
-
-    private static boolean isAgtB(String a, String b){
-        return a.compareTo(b) > 0 ;
-    }
-
-    private static boolean isAgetB(String a, String b){
-        return a.compareTo(b) >= 0 ;
-    }
-
-    private static Date parseDateFromString(String dateString){
-        try {
-            return dateFormat.parse(dateString);
-        } catch (ParseException e){
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private static String formatMonthStringFromDate(Date date){
-        return monthFormat.format(date);
-    }
-
 }

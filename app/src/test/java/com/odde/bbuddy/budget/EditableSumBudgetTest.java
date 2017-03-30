@@ -13,17 +13,17 @@ import java.util.List;
  */
 
 public class EditableSumBudgetTest {
-    private static final double DELTA = Math.pow(10, -6);
+    private static final double DELTA = Math.pow(10, -2);
 
     @Test
     public void test_getSumBudgets() {
         List<Budget> budgets = new ArrayList<>();
-        budgets.add(createBudget(1, "2017-02", 1000));
-        budgets.add(createBudget(2, "2017-03", 1000));
-        budgets.add(createBudget(3, "2017-04", 1000));
+        budgets.add(createBudget(1, "2017-02", 2800));
+        budgets.add(createBudget(2, "2017-03", 3100));
+        budgets.add(createBudget(3, "2017-04", 3000));
 
         float actResult = BudgetSumUtil.getBudgetsSum("2017-02-15", "2017-04-16", budgets);
-        Assert.assertEquals(2033.33, actResult, DELTA);
+        Assert.assertEquals((14+31+16)*100, actResult, DELTA);
     }
 
     @Test

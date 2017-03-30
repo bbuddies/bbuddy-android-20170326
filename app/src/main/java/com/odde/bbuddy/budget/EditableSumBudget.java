@@ -4,11 +4,15 @@ import com.odde.bbuddy.common.Consumer;
 import com.odde.bbuddy.common.Singleton;
 import com.odde.bbuddy.di.scope.ActivityScope;
 
+import org.joda.time.LocalDate;
 import org.robobinding.annotation.PresentationModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static java.util.Arrays.asList;
 
 /**
  * Created by lizz on 2017/3/27.
@@ -46,15 +50,17 @@ public class EditableSumBudget {
     }
 
     public void sum() {
-            budgetsApi.getAllBudgets(new Consumer<List<Budget>>() {
+        Budgets budgets = new Budgets(budgetsApi);
+        LocalDate startDate = LocalDate.parse(start_date);
+        LocalDate endDate = LocalDate.parse(end_date);
+        budgets.query(startDate, endDate, new Consumer<Float>(){
 
-                @Override
-                public void accept(List<Budget> budgets) {
-                    float sum = BudgetSumUtil.getBudgetsSum(start_date, end_date, budgets);
-                        Singleton.singleton.getSumBudgets().setSumAmount(String.valueOf(sum));
-                        budgetsActivityNavigation.navigate();
-                }
-            });
+            @Override
+            public void accept(Float sum) {
+                Singleton.singleton.getSumBudgets().setSumAmount(String.valueOf(sum));
+                budgetsActivityNavigation.navigate();
+            }
+        });
     }
 
     public Runnable refreshRunnable() {
